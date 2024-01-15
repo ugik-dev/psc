@@ -100,6 +100,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
       });
     }
 
+    // var loginForm = $("#loginForm");
+
     //  Two Steps Verification
     const numeralMask = document.querySelectorAll('.numeral-mask');
 
@@ -113,3 +115,43 @@ document.addEventListener('DOMContentLoaded', function (e) {
     }
   })();
 });
+
+// formAuthenticationJq.on("submit", (ev) => {
+//     ev.preventDefault();
+//     Swal.fire({
+//         title: "Please Wait !",
+//         html: "Loggin ..", // add html attribute if you want or remove
+//         allowOutsideClick: false,
+//         allowEscapeKey: false,
+//         customClass: {
+//             confirmButton: "btn btn-primary waves-effect waves-light d-none",
+//         },
+//         buttonsStyling: false,
+//         showCancelButton: false,
+//         showConfirmButton: false,
+//         showLoaderOnConfirm: false,
+//     });
+//     Swal.showLoading();
+//     $.ajax({
+//         url: "<?= url('login-process') ?>",
+//         type: "POST",
+//         data: loginForm.serialize(),
+//         success: (data) => {
+//             // buttonIdle(submitBtn);
+//             json = JSON.parse(data);
+//             if (json["error"]) {
+//                 Swal.fire({
+//                     icon: "error",
+//                     title: "Login Gagal",
+//                     text: json["message"],
+//                 });
+//                 // swal("Login Gagal", json['message'], "error");
+//                 return;
+//             }
+//             // $(location).attr("href", "");
+//         },
+//         error: () => {
+//             // buttonIdle(submitBtn);
+//         },
+//     });
+// });
