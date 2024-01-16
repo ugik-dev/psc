@@ -2,17 +2,65 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LoginSession;
+use App\Models\RequestCall;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class EmergencyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function pengguna(Request $request)
     {
-        //
-        return view('pages.emergency');
+        if ($request->ajax()) {
+            $data =  LoginSession::latest()->get();
+            return DataTables::of($data)->addColumn('id', function ($data) {
+                return $data->id;
+            })->addColumn('created_at', function ($data) {
+                return $data->created_at;
+            })->addColumn('name', function ($data) {
+                return $data->name;
+            })->addColumn('phone', function ($data) {
+                return $data->phone;
+            })->addColumn('aksi', function ($data) {
+                return "AKSI";
+            })->make(true);
+        }
+        return view('pages.pengguna', compact('request'));
+    }
+    public function index(Request $request)
+    {
+        // dd(
+        //     RequestCall::selectRaw('request_calls.*, login_session.name, login_session.phone, ref_emergencies.name as emergency_name')
+        //         ->join('login_session', 'login_session.id', '=', 'request_calls.login_session_id')
+        //         ->join('ref_emergencies', 'ref_emergencies.id', '=', 'request_calls.ref_emergency_id')
+        //         ->limit(5)
+        //         ->get()
+        // );
+        if ($request->ajax()) {
+            $data =  RequestCall::selectRaw('request_calls.*, login_session.name, login_session.phone, ref_emergencies.name as emergency_name')
+                ->join('login_session', 'login_session.id', '=', 'request_calls.login_session_id')
+                ->join('ref_emergencies', 'ref_emergencies.id', '=', 'request_calls.ref_emergency_id')
+                ->latest()->get();
+
+            return DataTables::of($data)->addColumn('id', function ($data) {
+                return $data->id;
+            })->addColumn('created_at', function ($data) {
+                return $data->created_at;
+            })->addColumn('name', function ($data) {
+                return $data->name;
+            })->addColumn('phone', function ($data) {
+                return $data->phone;
+            })->addColumn('emergency_name', function ($data) {
+                return $data->emergency_name;
+            })->addColumn('status', function ($data) {
+                return $data->status;
+            })->addColumn('posisi', function ($data) {
+                return $data->long . ', ' . $data->lat;
+            })->addColumn('aksi', function ($data) {
+                return "AKSI";
+            })->make(true);
+        }
+        return view('pages.emergency', compact('request'));
     }
 
     /**

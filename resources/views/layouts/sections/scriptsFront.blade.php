@@ -11,6 +11,9 @@
 <!-- END: Theme JS-->
 <!-- Pricing Modal JS-->
 @stack('pricing-script')
+@stack('scripts')
+
+<!-- Script Front Fuck-->
 <!-- END: Pricing Modal JS-->
 <!-- BEGIN: Page JS-->
 @yield('page-script')

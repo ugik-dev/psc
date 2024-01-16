@@ -48,6 +48,12 @@
                 <div>Permintaan Darurat</div>
             </a>
         </li>
+        <li class="menu-item">
+            <a href="{{ route('pengguna') }}" class="menu-link ">
+                <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
+                <div>Pengguna Aplikasi</div>
+            </a>
+        </li>
 
         {{-- dari sini template --}}
         <?php $menuData = []; ?>
