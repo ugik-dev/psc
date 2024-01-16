@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
 use App\Models\LoginSession;
 
 class LoginController extends Controller
@@ -16,7 +18,6 @@ class LoginController extends Controller
 
         $user = LoginSession::create($validated)->id;
         $user = LoginSession::find($user);
-        // dd($user);
 
         return response()->json([
             'message' => 'Authentication success',

@@ -36,12 +36,15 @@
                     <h4 class="mb-2">Sepintu Sedulang</h4>
                     <h4 class="mb-2">Kabupaten Bangka</h4> --}}
                     <p class="mb-4">Please sign-in to your account and start the adventure</p>
-
+                    @if (session('error'))
+                        <p>{{ session('error') }}</p>
+                    @endif
                     <form id="formAuthentication2" class="mb-3">
+                        @csrf
                         <div class="form-floating form-floating-outline mb-3">
-                            <input type="text" class="form-control" id="email" name="email-username"
-                                placeholder="Enter your email or username" autofocus />
-                            <label for="email">Email or Username</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="Enter your username" autofocus />
+                            <label for="username">Username</label>
                         </div>
                         <div class="mb-3">
                             <div class="form-password-toggle">
@@ -109,7 +112,8 @@
         </div>
     </div>
 </div>
-
+{{-- @endsection
+@section('page-script') --}}
 <script>
     $(document).ready(function() {
         cur_sh = 'hide';
@@ -127,14 +131,14 @@
         var loginForm = $('#formAuthentication2');
 
 
+        console.log('masuk')
         loginForm.on('submit', function(event) {
             event.preventDefault();
-            console.log('masuk')
-            return;
+            // return;
             Swal.fire({
                 title: 'Please Wait !',
                 html: 'Loggin ..', // add html attribute if you want or remove
-                allowOutsideClick: false,
+                // allowOutsideClick: false,
                 allowEscapeKey: false,
                 customClass: {
                     confirmButton: 'btn btn-primary waves-effect waves-light d-none'
@@ -146,22 +150,26 @@
             });
             Swal.showLoading()
             $.ajax({
-                url: "${routes('login')}",
+                url: "{{ route('auth-login-process') }}",
                 type: "POST",
                 data: loginForm.serialize(),
                 success: (data) => {
                     // buttonIdle(submitBtn);
-                    json = JSON.parse(data);
-                    if (json['error']) {
+                    // json = JSON.parse(data);
+                    console.log(data)
+                    if (data['error']) {
+
                         Swal.fire({
                             icon: 'error',
                             title: 'Login Gagal',
-                            text: json['message'],
-                        })
-                        // swal("Login Gagal", json['message'], "error");
+                            text: data['message'],
+                            customClass: {
+                                confirmButton: 'btn btn-primary waves-effect'
+                            }
+                        });
                         return;
                     }
-                    // $(location).attr('href', '<?= url('dashboard') ?>');
+                    $(location).attr('href', "{{ route('dashboard') }}");
                 },
                 error: () => {
                     // buttonIdle(submitBtn);
