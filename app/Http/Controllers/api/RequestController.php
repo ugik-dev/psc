@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Events\RequestCallEvent;
 use App\Models\RequestCall;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,8 +16,11 @@ class RequestController extends Controller
         return RequestCall::all();
     }
 
+
     public function post(Request $request)
     {
+        // $ev = event(new RequestCallEvent('hello world'));
+        // dd($ev);
         $validate  = $request->validate([
             'ref_emergency_id' => 'required',
             'long' => 'required',
@@ -24,9 +28,10 @@ class RequestController extends Controller
         ]);
         // $user_id = Auth::id();
         $validate['login_session_id'] = $request->user()->id;
-        // dd($request->user()->id);
-
         $res = RequestCall::create($validate);
+        $res->id;
+        RequestCallEvent::dispatch($res->id, $res->ref_emergency_id, $res->status);
+
         return response()->json([
             'message' => 'Request Emergency success',
             'data' => [

@@ -12,6 +12,9 @@ class LoginBasic extends Controller
 {
   public function index()
   {
+    if (Auth::check()) {
+      return redirect('/dashboard');
+    }
     $pageConfigs = ['myLayout' => 'blank'];
     return view('content.authentications.auth-login-basic', ['pageConfigs' => $pageConfigs]);
   }

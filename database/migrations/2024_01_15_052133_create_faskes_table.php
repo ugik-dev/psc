@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\RefJenFaskes;
+use App\Models\User;
 
 return new class extends Migration
 {
@@ -14,14 +15,19 @@ return new class extends Migration
     {
         Schema::create('faskes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(RefJenFaskes::class);
+            $table->foreignIdFor(User::class)->nullable();
+            $table->foreignIdFor(RefJenFaskes::class)->nullable();
             $table->string('name');
-            $table->string('deskcription');
-            $table->string('logo');
-            $table->string('cover');
-            $table->string('long');
-            $table->string('lat');
-            $table->json('operasional_time');
+            $table->string('description');
+            $table->string('logo')->nullable();
+            $table->string('alamat');
+            $table->string('website');
+            $table->string('phone')->nullable();
+            $table->string('whatsapp')->nullable();
+            $table->string('cover')->nullable();
+            $table->string('long')->nullable();
+            $table->string('lat')->nullable();
+            $table->json('operasional_time')->nullable();
             $table->timestamps();
         });
     }

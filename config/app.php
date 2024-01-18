@@ -168,6 +168,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        // App\Helpers\DataStructure::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
     ])->toArray(),
@@ -184,6 +185,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'DataStructur' =>         App\Helpers\DataStructure::class,
         // 'Example' => App\Facades\Example::class,
         'Helper' => App\Helpers\Helpers::class,
     ])->toArray(),

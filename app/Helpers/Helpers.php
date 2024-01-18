@@ -204,4 +204,22 @@ class Helpers
       }
     }
   }
+
+  public static function formatDateIndonesia($date)
+  {
+    // Set locale to Bahasa Indonesia
+    \Carbon\Carbon::setLocale('id');
+
+    return \Carbon\Carbon::parse($date)->isoFormat('dddd, D MMMM YYYY, [Pukul] HH:mm');
+  }
 }
+
+// if (!function_exists('formatDateIndonesia')) {
+//   function formatDateIndonesia($date)
+//   {
+//     // Set locale to Bahasa Indonesia
+//     \Carbon\Carbon::setLocale('id');
+
+//     return \Carbon\Carbon::parse($date)->isoFormat('dddd, D MMMM YYYY, [Pukul] HH:mm');
+//   }
+// }

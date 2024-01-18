@@ -20,7 +20,7 @@ $(function () {
 
   // Variable declaration for table
   var dt_user_table = $('.datatables-referral'),
-    customerView = baseUrl + 'app/ecommerce/customer/details/overview',
+    customerView = baseUrl + 'app/ecommerceer/details/overview',
     statusObj = {
       1: { title: 'Paid', class: 'bg-label-success' },
       2: { title: 'Unpaid', class: 'bg-label-warning' },
@@ -197,7 +197,7 @@ $(function () {
                 }
               },
               customize: function (win) {
-                //customize print view for dark
+                /ize print view for dark
                 $(win.document.body)
                   .css('color', headingColor)
                   .css('border-color', borderColor)

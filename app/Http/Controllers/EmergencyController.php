@@ -27,15 +27,26 @@ class EmergencyController extends Controller
         }
         return view('pages.pengguna', compact('request'));
     }
+    public function getData(Request $request)
+    {
+        $data =  RequestCall::selectRaw('request_calls.*, login_session.name, login_session.phone, ref_emergencies.name as emergency_name')
+            ->join('login_session', 'login_session.id', '=', 'request_calls.login_session_id')
+            ->join('ref_emergencies', 'ref_emergencies.id', '=', 'request_calls.ref_emergency_id')
+            ->where('request_calls.id', '=', $request->id_request)
+            ->get()->first();
+
+        return $this->responseSuccess(['success', 'data' => $data]);
+    }
+
+    public function detail($id, Request $request)
+    {
+        $data = RequestCall::with(['login_session', 'ref_emergency'])
+            ->findOrFail($id);
+        return view('pages.emergency.detail', ['dataContent' => $data]);
+    }
+
     public function index(Request $request)
     {
-        // dd(
-        //     RequestCall::selectRaw('request_calls.*, login_session.name, login_session.phone, ref_emergencies.name as emergency_name')
-        //         ->join('login_session', 'login_session.id', '=', 'request_calls.login_session_id')
-        //         ->join('ref_emergencies', 'ref_emergencies.id', '=', 'request_calls.ref_emergency_id')
-        //         ->limit(5)
-        //         ->get()
-        // );
         if ($request->ajax()) {
             $data =  RequestCall::selectRaw('request_calls.*, login_session.name, login_session.phone, ref_emergencies.name as emergency_name')
                 ->join('login_session', 'login_session.id', '=', 'request_calls.login_session_id')
@@ -57,10 +68,10 @@ class EmergencyController extends Controller
             })->addColumn('posisi', function ($data) {
                 return $data->long . ', ' . $data->lat;
             })->addColumn('aksi', function ($data) {
-                return "AKSI";
-            })->make(true);
+                return '<a href="' . route('detail-emergency', $data->id) . '" class="btn btn-primary">Open</a>';
+            })->rawColumns(['aksi'])->make(true);
         }
-        return view('pages.emergency', compact('request'));
+        return view('pages.emergency.index', compact('request'));
     }
 
     /**

@@ -54,6 +54,12 @@
                 <div>Pengguna Aplikasi</div>
             </a>
         </li>
+        <li class="menu-item">
+            <a href="{{ route('faskes.index') }}" class="menu-link ">
+                <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
+                <div>Manage Fasilitas Kesehatan</div>
+            </a>
+        </li>
 
         {{-- dari sini template --}}
         <?php $menuData = []; ?>
