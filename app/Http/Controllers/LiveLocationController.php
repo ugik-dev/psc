@@ -8,6 +8,7 @@ use App\Models\LiveLocation;
 use App\Models\RefLiveLocation;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Hash;
 
 class LiveLocationController extends Controller
@@ -63,9 +64,9 @@ class LiveLocationController extends Controller
     {
         try {
             $data =  LiveLocation::with('ref_live_location')->find($id);
-            $pusher = new LiveLocationEvent($data->id, $data->long, $data->lat, $data->name, $data->police_number);
-            broadcast($pusher)->toOthers();
-            // dd($data);
+            // $pusher = new LiveLocationEvent($data->id, $data->long, $data->lat, $data->name, $data->police_number);
+            // broadcast($pusher)->toOthers('1');
+
             return view('page.live_location.monitoring', ['dataContent' => $data]);
         } catch (Exception $ex) {
             return  $this->ResponseError($ex->getMessage());
@@ -123,6 +124,8 @@ class LiveLocationController extends Controller
             ];
             $live = $request->user();
             $live->update($new);
+
+            LiveLocationEvent::dispatch($live->id, $live->long, $live->lat, $live->name, $live->police_number);
             return  $this->responseSuccess('', 'Success update');
         } catch (Exception $ex) {
             return  $this->ResponseError($ex->getMessage());

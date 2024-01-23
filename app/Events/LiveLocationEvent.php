@@ -36,7 +36,7 @@ class LiveLocationEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['livelocation-channel'];
+        return [('livelocation-channel.' . $this->idLiveLocation)];
     }
     public function broadcastAs()
     {

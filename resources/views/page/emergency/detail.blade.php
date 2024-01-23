@@ -124,11 +124,11 @@
             });
 
             // Marker for dataContent
-            // const dataContentMarker = new google.maps.Marker({
-            //     position: dataContentPosition,
-            //     map: map,
-            //     title: "Data Content Location",
-            // });
+            const dataContentMarker = new google.maps.Marker({
+                position: dataContentPosition,
+                map: map,
+                title: "{{ $dataContent->login_session->name }}",
+            });
 
             if (navigator.geolocation) {
                 // Get user's current location
@@ -150,10 +150,10 @@
                         const bounds = new google.maps.LatLngBounds();
                         // bounds.extend(dataContentMarker.getPosition());
                         // bounds.extend(userMarker.getPosition());
-                        // map.fitBounds(bounds);
+                        map.fitBounds(bounds);
                         // drawPolyline(userPosition, dataContentPosition);
                         displayRoute(userPosition, dataContentPosition);
-                        // displayRoute(start, end)
+                        displayRoute(start, end)
                     },
                     (error) => {
                         console.error("Error getting user location:", error);

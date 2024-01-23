@@ -37,7 +37,6 @@ class LoginBasic extends Controller
 
     if (!$user) {
       return  $this->responseError("Username tidak ditemukan");
-      dd($credentials);
     }
     if (!Hash::check($credentials['password'], $user->password)) {
       return  $this->responseError("Password salah");

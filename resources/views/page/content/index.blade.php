@@ -13,9 +13,9 @@
     <!-- Form Validation -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/@form-validation/umd/styles/index.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
-    <link rel="stylesheet" href="assets/vendor/libs/quill/typography.css" />
-    <link rel="stylesheet" href="assets/vendor/libs/quill/katex.css" />
-    <link rel="stylesheet" href="assets/vendor/libs/quill/editor.css" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/typography.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/katex.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/editor.css') }}" />
 @endsection
 
 @section('vendor-script')
@@ -25,15 +25,13 @@
 @endsection
 
 @section('page-script')
-    <!-- <script src="{{ asset('assets/js/tables-datatables-basic.js') }}"></script> -->
 @endsection
 
 @section('content')
     <h4 class="py-3 mb-4">
-        <span class="text-muted fw-light">Manage /</span> Fasilitas Kesehatan
+        <span class="text-muted fw-light">Manage /</span> Kontent Informasi
     </h4>
     @csrf
-    <!-- DataTable with Buttons -->
     <div class="card">
         <div class="card-datatable table-responsive pt-0">
             <table id="FDataTable" class="table table-bordered">
@@ -53,7 +51,7 @@
     <!-- Modal to add new record -->
     <div class="offcanvas offcanvas-end" id="add-new-record" style="width : 700px !important">
         <div class="offcanvas-header border-bottom">
-            <h5 class="offcanvas-title" id="exampleModalLabel">Form Fasilitas Kesehatan</h5>
+            <h5 class="offcanvas-title" id="exampleModalLabel">Form</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body flex-grow-1">
