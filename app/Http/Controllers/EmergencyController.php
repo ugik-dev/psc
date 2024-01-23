@@ -25,7 +25,7 @@ class EmergencyController extends Controller
                 return "AKSI";
             })->make(true);
         }
-        return view('pages.pengguna', compact('request'));
+        return view('page.pengguna', compact('request'));
     }
     public function getData(Request $request)
     {
@@ -42,7 +42,7 @@ class EmergencyController extends Controller
     {
         $data = RequestCall::with(['login_session', 'ref_emergency'])
             ->findOrFail($id);
-        return view('pages.emergency.detail', ['dataContent' => $data]);
+        return view('page.emergency.detail', ['dataContent' => $data]);
     }
 
     public function index(Request $request)
@@ -71,7 +71,7 @@ class EmergencyController extends Controller
                 return '<a href="' . route('detail-emergency', $data->id) . '" class="btn btn-primary">Open</a>';
             })->rawColumns(['aksi'])->make(true);
         }
-        return view('pages.emergency.index', compact('request'));
+        return view('page.emergency.index', compact('request'));
     }
 
     /**

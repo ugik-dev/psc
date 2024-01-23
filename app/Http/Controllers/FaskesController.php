@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+
 class FaskesController extends Controller
 {
     /**
@@ -22,24 +23,22 @@ class FaskesController extends Controller
             'refFaskes' => RefJenFaskes::get(),
             'refEmergency' => RefEmergency::get()
         ];
-        return view('pages.faskes.index', compact('request', 'dataContent'));
+        return view('page.faskes.index', compact('request', 'dataContent'));
     }
 
     public function get(Request $request)
     {
-        // try {
-        $query =  Faskes::with('jen_faskes');
-        if (!empty($request->id)) $query->where('id', '=', $request->id);
-        $res = $query->get()->toArray();
-        $data =   DataStructure::keyValueObj($res, 'id');
-        return $this->responseSuccess($data);
-        // } catch (Exception $ex) {
-        //     return  $this->ResponseError($ex->getMessage());
-        // }
+        try {
+            $query =  Faskes::with('jen_faskes');
+            if (!empty($request->id)) $query->where('id', '=', $request->id);
+            $res = $query->get()->toArray();
+            $data =   DataStructure::keyValueObj($res, 'id');
+            return $this->responseSuccess($data);
+        } catch (Exception $ex) {
+            return  $this->ResponseError($ex->getMessage());
+        }
     }
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create(Request $request)
     {
         try {
@@ -65,33 +64,17 @@ class FaskesController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request)
     {
         try {
@@ -117,11 +100,15 @@ class FaskesController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+
+    public function delete(Request $request)
     {
-        //
+        try {
+            $data = Faskes::with('jen_faskes')->findOrFail($request->id);
+            $data->delete();
+            return  $this->responseSuccess($data);
+        } catch (Exception $ex) {
+            return  $this->ResponseError($ex->getMessage());
+        }
     }
 }

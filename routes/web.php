@@ -8,9 +8,11 @@ use App\Http\Controllers\pages\Page2;
 use App\Http\Controllers\pages\MiscError;
 use App\Http\Controllers\authentications\LoginBasic;
 use App\Http\Controllers\authentications\RegisterBasic;
+use App\Http\Controllers\ContentController;
 use App\Http\Controllers\EmergencyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaskesController;
+use App\Http\Controllers\LiveLocationController;
 use GuzzleHttp\Psr7\Request;
 
 /*
@@ -55,5 +57,25 @@ Route::middleware(['auth'])->group(function () {
         Route::put('', [FaskesController::class, 'update'])->name('update');
         Route::delete('/', [FaskesController::class, 'delete'])->name('delete');
         Route::get('/getData/{id_wil}', [FaskesController::class, 'getData'])->name('get-data');
+    });
+
+    Route::prefix('manage-live-location')->name('live-location.')->group(function () {
+        Route::get('', [LiveLocationController::class, 'index'])->name('index');
+        Route::get('get', [LiveLocationController::class, 'get'])->name('get');
+        Route::post('', [LiveLocationController::class, 'create'])->name('create');
+        Route::put('', [LiveLocationController::class, 'update'])->name('update');
+        Route::delete('/', [LiveLocationController::class, 'delete'])->name('delete');
+        Route::get('/monitoring/{id}', [LiveLocationController::class, 'monitoring'])->name('monitoring');
+        // Route::get('get', [LiveLocationController::class, 'get'])->name('show');
+    });
+
+    Route::prefix('content')->name('content.')->group(function () {
+        Route::get('', [ContentController::class, 'index'])->name('index');
+        Route::get('get', [ContentController::class, 'get'])->name('get');
+        Route::post('', [ContentController::class, 'create'])->name('create');
+        Route::put('', [ContentController::class, 'update'])->name('update');
+        Route::delete('/', [ContentController::class, 'delete'])->name('delete');
+        Route::get('/getData/{id_wil}', [ContentController::class, 'getData'])->name('get-data');
+        Route::get('/show/{slug}', [ContentController::class, 'show'])->name('show');
     });
 });

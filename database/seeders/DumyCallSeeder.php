@@ -15,11 +15,11 @@ class DumyCallSeeder extends Seeder
     public function run(): void
     {
 
-        for ($i = 1; $i < 1000; $i++) {
+        for ($i = 1; $i < 100; $i++) {
             $p = LoginSession::insertGetId(['name' => 'Pengguna' . $i, 'phone' => '08' . $i]);
             // $id  = $p->id();
 
-            for ($j = 1; $j < 5; $j++) {
+            for ($j = 1; $j < 3; $j++) {
                 $randomCoordinates = $this->generateRandomCoordinates();
                 RequestCall::create(['login_session_id' => $p, 'ref_emergency_id' => rand(1, 6), 'status' => '1', 'long' => $randomCoordinates['long'], 'lat' => $randomCoordinates['lat']]);
             }

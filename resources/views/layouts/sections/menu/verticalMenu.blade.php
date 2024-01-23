@@ -54,14 +54,25 @@
                 <div>Pengguna Aplikasi</div>
             </a>
         </li>
+
+        <li class="menu-item">
+            <a href="{{ route('content.index') }}" class="menu-link ">
+                <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
+                <div>Halaman Informasi</div>
+            </a>
+        </li>
         <li class="menu-item">
             <a href="{{ route('faskes.index') }}" class="menu-link ">
                 <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
                 <div>Manage Fasilitas Kesehatan</div>
             </a>
         </li>
-
-        {{-- dari sini template --}}
+        <li class="menu-item">
+            <a href="{{ route('live-location.index') }}" class="menu-link ">
+                <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
+                <div>Manage Live Location</div>
+            </a>
+        </li>
         <?php $menuData = []; ?>
         @if (!empty($menuData))
             @foreach ($menuData[0]->menu as $menu)

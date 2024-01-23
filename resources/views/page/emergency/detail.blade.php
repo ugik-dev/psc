@@ -87,7 +87,7 @@
                 d[l](f, ...n))
         })
         ({
-            key: "AIzaSyAPzY-zpIY2bgvhyKjRhIHUHbK_MGHtg9s",
+            key: "{{ env('GOOGLE_MAPS_API_KEY') }}",
             v: "weekly"
         });
     </script>

@@ -19,14 +19,11 @@ class RequestController extends Controller
 
     public function post(Request $request)
     {
-        // $ev = event(new RequestCallEvent('hello world'));
-        // dd($ev);
         $validate  = $request->validate([
             'ref_emergency_id' => 'required',
             'long' => 'required',
             'lat' => 'required',
         ]);
-        // $user_id = Auth::id();
         $validate['login_session_id'] = $request->user()->id;
         $res = RequestCall::create($validate);
         $res->id;

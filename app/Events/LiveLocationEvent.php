@@ -11,18 +11,22 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class RequestCallEvent implements ShouldBroadcast
+class LiveLocationEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $idRequest;
-    public $idJenis;
-    public $status;
+    public $idLiveLocation;
+    public $long;
+    public $lat;
+    public $name;
+    public $police_number;
 
-    public function __construct($idRequest, $idJenis, $status)
+    public function __construct($idLiveLocation, $long, $lat, $name, $police_number)
     {
-        $this->idJenis = $idJenis;
-        $this->idRequest = $idRequest;
-        $this->status = $status;
+        $this->idLiveLocation = $idLiveLocation;
+        $this->long = $long;
+        $this->lat = $lat;
+        $this->name = $name;
+        $this->police_number = $police_number;
     }
 
     /**
@@ -32,10 +36,10 @@ class RequestCallEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['emergency-channel'];
+        return ['livelocation-channel'];
     }
     public function broadcastAs()
     {
-        return 'emergency-event';
+        return 'livelocation-event';
     }
 }

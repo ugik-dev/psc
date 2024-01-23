@@ -53,9 +53,6 @@
 @push('scripts')
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     <script>
-        // Enable pusher logging - don't include this in production
-    </script>
-    <script>
         $(document).ready(function() {
             $('#datatable').DataTable({
                 processing: true,
@@ -97,8 +94,8 @@
             var currenPickOff = null;
             Pusher.logToConsole = true;
 
-            var pusher = new Pusher('015992b9da4e10077122', {
-                cluster: 'ap1'
+            var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+                cluster: '{{ env('PUSHER_APP_CLUSTER') }}'
             });
 
 
@@ -161,9 +158,9 @@
                 });
 
             }
-            newData({
-                'idRequest': 4004
-            })
+            // newData({
+            //     'idRequest': 4004
+            // })
         });
     </script>
 @endpush

@@ -20,17 +20,14 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
-    <!-- Flat Picker -->
     <script src="{{ asset('assets/vendor/libs/moment/moment.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/flatpickr/flatpickr.js') }}"></script>
-    <!-- Form Validation -->
     <script src="{{ asset('assets/vendor/libs/@form-validation/umd/bundle/popular.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js') }}"></script>
 @endsection
 
 @section('page-script')
-    <!-- <script src="{{ asset('assets/js/tables-datatables-basic.js') }}"></script> -->
 @endsection
 
 @section('content')
@@ -41,7 +38,6 @@
     <!-- DataTable with Buttons -->
     <div class="card">
         <div class="card-datatable table-responsive pt-0">
-
             <table id="FDataTable" class="table table-bordered">
                 <thead>
                     <tr>
@@ -544,9 +540,8 @@
                             'id': id
                         },
                         success: function(data) {
-                            var json = JSON.parse(data);
-                            if (json['error']) {
-                                swalError(json['message'], "Simpan Gagal !!");
+                            if (data['error']) {
+                                swalError(data['message'], "Simpan Gagal !!");
                                 return;
                             }
                             delete dataFaskes[id];
@@ -561,10 +556,4 @@
 
         });
     </script>
-    <?php
-    // $this->load->view('global/confirm_delete');
-    ?>
-    <!-- <script src="assets/js/jquery.validate.min.js"></script>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <script src="assets/js/validasi.js"></script>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <script src="assets/js/localization/messages_id.js"></script> -->
 @endsection
