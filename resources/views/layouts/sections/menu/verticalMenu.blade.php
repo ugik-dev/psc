@@ -68,6 +68,12 @@
             </a>
         </li>
         <li class="menu-item">
+            <a href="{{ route('agent.index') }}" class="menu-link ">
+                <i class="menu-icon tf-icons mdi mdi-account-details-outline"></i>
+                <div>Manage Agent</div>
+            </a>
+        </li>
+        <li class="menu-item">
             <a href="{{ route('live-location.index') }}" class="menu-link ">
                 <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
                 <div>Manage Live Location</div>

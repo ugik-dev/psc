@@ -13,6 +13,7 @@ use App\Http\Controllers\EmergencyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaskesController;
 use App\Http\Controllers\LiveLocationController;
+use App\Http\Controllers\UserController;
 use GuzzleHttp\Psr7\Request;
 
 /*
@@ -47,9 +48,16 @@ Route::get('emergency/{id}', [EmergencyController::class, 'detail'])->name('deta
 
 Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('emergency/{id}/form', [EmergencyController::class, 'form'])->name('emergency-form');
+    Route::POST('emergency/{id}/form', [EmergencyController::class, 'form_save_new'])->name('emergency-form-save');
+    Route::POST('emergency/{id}/{id_form}/form', [EmergencyController::class, 'form_save'])->name('emergency-form-save-edit');
+    Route::get('emergency/{id}/{id_form}/form-edit', [EmergencyController::class, 'form_edit'])->name('emergency-form-edit');
+    Route::get('emergency-act/{id}/{act?}', [EmergencyController::class, 'action'])->name('pick-off');
 
     Route::get('emergency', [EmergencyController::class, 'index'])->name('emergency');
     Route::get('pengguna', [EmergencyController::class, 'pengguna'])->name('pengguna');
+    Route::get('sebaran-faskes', [FaskesController::class, 'sebaran'])->name('faskes.sebaran');
+
     Route::prefix('manage-faskes')->name('faskes.')->group(function () {
         Route::get('', [FaskesController::class, 'index'])->name('index');
         Route::get('get', [FaskesController::class, 'get'])->name('get');
@@ -58,7 +66,13 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/', [FaskesController::class, 'delete'])->name('delete');
         Route::get('/getData/{id_wil}', [FaskesController::class, 'getData'])->name('get-data');
     });
-
+    Route::prefix('manage-agent')->name('agent.')->group(function () {
+        Route::get('', [UserController::class, 'index'])->name('index');
+        Route::get('get', [UserController::class, 'get'])->name('get');
+        Route::post('', [UserController::class, 'create'])->name('create');
+        Route::put('', [UserController::class, 'update'])->name('update');
+        Route::delete('/', [UserController::class, 'delete'])->name('delete');
+    });
     Route::prefix('manage-live-location')->name('live-location.')->group(function () {
         Route::get('', [LiveLocationController::class, 'index'])->name('index');
         Route::get('get', [LiveLocationController::class, 'get'])->name('get');

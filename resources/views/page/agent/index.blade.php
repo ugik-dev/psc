@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'DataTables - Tables')
+@section('title', 'Manage Agent')
 
 @section('vendor-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
@@ -29,44 +29,19 @@
 
 @section('page-script')
     <script>
-        /* prettier-ignore */
-        (g => {
-            var h, a, k, p = "The Google Maps JavaScript API",
-                c = "google",
-                l = "importLibrary",
-                q = "__ib__",
-                m = document,
-                b = window;
-            b = b[c] || (b[c] = {});
-            var d = b.maps || (b.maps = {}),
-                r = new Set,
-                e = new URLSearchParams,
-                u = () => h || (h = new Promise(async (f, n) => {
-                    await (a = m.createElement("script"));
-                    e.set("libraries", [...r] + "");
-                    for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
-                    e.set("callback", c + ".maps." + q);
-                    a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
-                    d[q] = f;
-                    a.onerror = () => h = n(Error(p + " could not load."));
-                    a.nonce = m.querySelector("script[nonce]")?.nonce || "";
-                    m.head.append(a)
-                }));
-            d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() =>
-                d[l](f, ...n))
-        })({
-            key: "",
-            v: "weekly",
-        }); /* prettier-ignore */
+        (function() {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+
+        })()
     </script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&loading=async&libraries=places,geometry&callback=initMap">
-    </script>
+    {{-- <script src="{{ asset('assets/js/form-validation.js') }}"></script> --}}
 @endsection
 
 @section('content')
     <h4 class="py-3 mb-4">
-        <span class="text-muted fw-light">Manage /</span> Fasilitas Kesehatan
+        <span class="text-muted fw-light">Manage /</span> Agent
     </h4>
     @csrf
     <!-- DataTable with Buttons -->
@@ -78,13 +53,11 @@
                         <th class="padat">No</th>
                         <th wlass="padat">Aksi</th>
                         <th>Nama</th>
-                        <th>Jenis</th>
+                        <th>Role</th>
                         <th>Alamat</th>
                         <th>Deskripsi</th>
-                        <th>Telpon / Whatsapp</th>
+                        <th>Telpon / Email</th>
                         <th>Website</th>
-                        <th>Lokasi</th>
-                        <th>Operasional</th>
                     </tr>
                 </thead>
             </table>
@@ -97,34 +70,44 @@
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body flex-grow-1">
-            <form class="add-new-record pt-0 row g-3" id="form-faskes" onsubmit="return false">
+            <form class="needs-validation add-new-record pt-0 row g-3" id="form-user" novalidate>
                 @csrf
                 <input type="text" id="id" class="" name="id" />
                 <div class="col-sm-12">
-                    <label for="basicFullname">Nama Fasilitas :</label>
+                    <label for="basicFullname">Nama :</label>
                     <div class="input-group input-group-merge">
                         <span id="basicFullname2" class="input-group-text"><i class="mdi mdi-file"></i></span>
                         <input type="text" id="name" class="form-control dt-full-name" name="name" placeholder=""
-                            aria-label="" aria-describedby="basicFullname2" />
+                            aria-label="" aria-describedby="basicFullname2" required />
                     </div>
                 </div>
                 <div class="col-sm-12">
-                    <label for="basicSalary">Jenis :</label>
+                    <label for="basicFullname">Username :</label>
+                    <div class="input-group input-group-merge">
+                        <span id="basicFullname2" class="input-group-text"><i class="mdi mdi-file"></i></span>
+                        <input type="text" id="username" class="form-control dt-full-name" pattern="[a-z0-9]+"
+                            name="username" placeholder="" aria-label="" aria-describedby="basicFullname2" required />
+                        <div class="invalid-feedback">
+                            Masukkan username hanya menggunakan huruf kecil dan angka, tanpa spasi dan karakter spesial
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <label for="basicSalary">Role :</label>
                     <div class="input-group input-group-merge">
                         <span id="basicSalary2" class="input-group-text"><i class='mdi mdi-account-outline'></i></span>
                         <div class="form-floating form-floating-outline">
-                            <!-- <input type="number" id="user_id" name="user_id" class="form-control dt-salary" aria-label="" aria-describedby="basicSalary2" /> -->
-                            <select id="ref_jen_faskes_id" name="ref_jen_faskes_id" class="form-control">
+                            <select id="role_id" name="role_id" class="form-control" required>
                                 <option value="">--</option>
-                                @foreach ($dataContent['refFaskes'] as $rd)
-                                    <option value="{{ $rd->id }}">{{ $rd->name }}</option>
+                                @foreach ($dataContent['refRole'] as $rd)
+                                    <option value="{{ $rd->id }}">{{ $rd->title }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-12">
-                    <label for="basicFullname">Alamat Fasilitas :</label>
+                    <label for="basicFullname">Alamat :</label>
                     <div class="input-group input-group-merge">
                         <span id="basicFullname2" class="input-group-text"><i class="mdi mdi-file"></i></span>
                         <input type="text" id="alamat" class="form-control dt-full-name" name="alamat" placeholder=""
@@ -132,79 +115,35 @@
                     </div>
                 </div>
                 <div class="col-sm-12">
-                    <label for="basicFullname">Deskripsi Fasilitas :</label>
-                    <div class="input-group input-group-merge">
-                        <span id="basicFullname2" class="input-group-text"><i class="mdi mdi-file"></i></span>
-                        <input type="text" id="description" class="form-control dt-full-name" name="description"
-                            placeholder="" aria-label="" aria-describedby="basicFullname2" />
-                    </div>
-                </div>
-                <div class="col-sm-12">
-                    <label for="basicFullname">Website :</label>
-                    <div class="input-group input-group-merge">
-                        <span id="basicFullname2" class="input-group-text"><i class="mdi mdi-file"></i></span>
-                        <input type="text" id="website" class="form-control dt-full-name" name="website"
-                            placeholder="" aria-label="" aria-describedby="basicFullname2" />
-                    </div>
-                </div>
-                <div class="col-sm-12">
                     <label for="basicFullname">Telepon :</label>
                     <div class="input-group input-group-merge">
                         <span id="basicFullname2" class="input-group-text"><i class="mdi mdi-file"></i></span>
                         <input type="text" id="phone" class="form-control dt-full-name" name="phone"
-                            placeholder="" aria-label="" aria-describedby="basicFullname2" />
+                            placeholder="" aria-label="" aria-describedby="basicFullname2" required />
                     </div>
                 </div>
                 <div class="col-sm-12">
-                    <label for="basicFullname">Whatsapp :</label>
+                    <label for="basicFullname">Email :</label>
                     <div class="input-group input-group-merge">
                         <span id="basicFullname2" class="input-group-text"><i class="mdi mdi-file"></i></span>
-                        <input type="text" id="whatsapp" class="form-control dt-full-name" name="whatsapp"
-                            placeholder="" aria-label="" aria-describedby="basicFullname2" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label for="basicFullname">Longitute :</label>
-                        <div class="input-group input-group-merge">
-                            <span id="basicFullname2" class="input-group-text"><i class="mdi mdi-file"></i></span>
-                            <input type="text" id="long" class="form-control dt-full-name" name="long"
-                                placeholder="" aria-label="" aria-describedby="basicFullname2" />
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <label for="basicFullname">Latitude :</label>
-                        <div class="input-group input-group-merge">
-                            <span id="basicFullname2" class="input-group-text"><i class="mdi mdi-file"></i></span>
-                            <input type="text" id="lat" class="form-control dt-full-name" name="lat"
-                                placeholder="" aria-label="" aria-describedby="basicFullname2" />
-                        </div>
-                    </div>
-                    <div class="col-md-12 mt-2">
-                        <hr>
-                        {{-- <label for="basicFullname">Latitude :</label> --}}
-                        <input type="text" id="search_maps" class="form-control"
-                            placeholder="Cari lokasi disini, talu tekan enter / bisa mengklik langsung pada MAP" />
-                        <div id="map" style="height:400px; width:100%; "></div>
+                        <input type="text" id="email" class="form-control dt-full-name" name="email"
+                            placeholder="" aria-label="" aria-describedby="basicFullname2" required />
                     </div>
                 </div>
                 <div class="col-sm-12">
-                    <label for="basicSalary">PIC :</label>
+                    <label for="basicFullname">Password <small id="span_cp">*kosongkan jika tidak
+                            diganti</small>:</label>
                     <div class="input-group input-group-merge">
-                        <span id="basicSalary2" class="input-group-text"><i class='mdi mdi-account-outline'></i></span>
-                        <div class="form-floating form-floating-outline">
-                            <!-- <input type="number" id="user_id" name="user_id" class="form-control dt-salary" aria-label="" aria-describedby="basicSalary2" /> -->
-                            <select id="user_id" name="user_id" class="form-control select-nama-kadus">
-                            </select>
-                        </div>
+                        <span class="input-group-text"><i class="mdi mdi-file"></i></span>
+                        <input type="password" id="password" class="form-control" name="password" placeholder=""
+                            required />
                     </div>
                 </div>
-
                 <div class="col-sm-12">
-                    <a type="" class="btn btn-primary data-submit me-sm-3 me-1 text-white" id="insertBtn"
-                        data-metod="ins">Tambah</a>
-                    <a type="" class="btn btn-primary data-submit me-sm-3 me-1 text-white" id="updateBtn"
-                        data-act="upd">Simpan Perubahan</a>
+                    <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1 text-white" id="insertBtn"
+                        data-metod="ins">Tambah</button>
+                    <button type="submit" class="btn btn-primary data-submit me-sm-3 me-1 text-white" id="updateBtn"
+                        data-act="upd">Simpan Perubahan</button>
                     <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">Cancel</button>
                 </div>
             </form>
@@ -219,105 +158,6 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            // testJS();
-            // let map;
-            let map;
-            let service;
-            let infowindow;
-            var markers = [];
-            async function initMap() {
-                const position = {
-                    lat: -1.901627,
-                    lng: 106.110315
-                };
-                map = new google.maps.Map(document.getElementById("map"), {
-                    zoom: 10,
-                    center: position,
-                    mapId: "PSC_FASKES",
-                });
-                const input = document.getElementById("search_maps");
-                const searchBox = new google.maps.places.SearchBox(input);
-                // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-                infowindow = new google.maps.InfoWindow();
-                markers = [];
-                map.addListener("bounds_changed", () => {
-                    searchBox.setBounds(map.getBounds());
-                });
-                searchBox.addListener("places_changed", () => {
-                    const places = searchBox.getPlaces();
-                    if (places.length === 0) {
-                        clearMarkers()
-                        return;
-                    }
-                    clearMarkers()
-                    const bounds = new google.maps.LatLngBounds();
-                    places.forEach((place) => {
-                        if (!place.geometry || !place.geometry.location) {
-                            console.log("Returned place contains no geometry");
-                            return;
-                        }
-
-                        const marker = new google.maps.Marker({
-                            map,
-                            title: place.name,
-                            position: place.geometry.location,
-                        });
-
-                        marker.addListener("click", () => {
-                            FaskesForm.long.val(place.geometry.location.lng())
-                            FaskesForm.lat.val(place.geometry.location.lat())
-                            infowindow.setContent(`
-                                    <div>
-                                        <strong>${place.name}</strong><br>
-                                        ${place.formatted_address}<br>
-                                        Coordinates: ${place.geometry.location.lat()}, ${place.geometry.location.lng()}
-                                    </div>
-                                `);
-                            infowindow.open(map, marker);
-                        });
-                        markers.push(marker);
-                        if (place.geometry.viewport) {
-                            bounds.union(place.geometry.viewport);
-                        } else {
-                            bounds.extend(place.geometry.location);
-                        }
-
-                    });
-
-                    map.fitBounds(bounds);
-                });
-
-                map.addListener("click", (event) => {
-                    const clickedLocation = event.latLng;
-                    FaskesForm.long.val(event.latLng.lng())
-                    FaskesForm.lat.val(event.latLng.lat())
-                    clearMarkers();
-                    const marker = new google.maps.Marker({
-                        position: clickedLocation,
-                        map: map,
-                        title: "Clicked Location"
-                    });
-                    markers.push(marker);
-                    infowindow.setContent(`
-                            <div>
-                                Clicked Location<br>
-                                Coordinates: ${clickedLocation.lat()}, ${clickedLocation.lng()}
-                            </div>
-                        `);
-                    infowindow.open(map, marker);
-                });
-
-            }
-
-            function clearMarkers() {
-                markers.forEach((marker) => {
-                    marker.setMap(null);
-                });
-                markers.length = 0; // Clear the markers array
-            }
-
-
-            initMap()
 
             var toolbar = {
                 'form': $('#toolbar_form'),
@@ -489,54 +329,44 @@
                         ]
                     },
                     {
-                        text: '<i class="mdi mdi-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Tambah Faskes</span>',
+                        text: '<i class="mdi mdi-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Tambah User</span>',
                         className: 'create-new btn btn-primary me-2'
                     },
-                    {
-                        text: '<i class="mdi mdi-eye me-sm-1"></i> <span class="d-none d-sm-inline-block">Sebaran</span>',
-                        className: 'open-sebaran btn btn-primary me-2'
-                    }
                 ],
 
             });
-            $('div.head-label').html('<h5 class="card-title mb-0">Data Faskes</h5>')
+            $('div.head-label').html('<h5 class="card-title mb-0">Data Agent</h5>')
 
-            var FaskesForm = {
-                'form': $('#form-faskes'),
-                'insertBtn': $('#form-faskes').find('#insertBtn'),
-                'updateBtn': $('#form-faskes').find('#updateBtn'),
-                'id': $('#form-faskes').find('#id'),
-                'name': $('#form-faskes').find('#name'),
-                'ref_jen_faskes_id': $('#form-faskes').find('#ref_jen_faskes_id'),
-                'alamat': $('#form-faskes').find('#alamat'),
-                'description': $('#form-faskes').find('#description'),
-                'website': $('#form-faskes').find('#website'),
-                'phone': $('#form-faskes').find('#phone'),
-                'whatsapp': $('#form-faskes').find('#whatsapp'),
-                'long': $('#form-faskes').find('#long'),
-                'lat': $('#form-faskes').find('#lat'),
-                'user_id': $('#form-faskes').find('#user_id'),
-                'operasional_time': $('#form-faskes').find('#operasional_time'),
+            var UserForm = {
+                'form': $('#form-user'),
+                'insertBtn': $('#form-user').find('#insertBtn'),
+                'updateBtn': $('#form-user').find('#updateBtn'),
+                'id': $('#form-user').find('#id'),
+                'name': $('#form-user').find('#name'),
+                'role_id': $('#form-user').find('#role_id'),
+                'alamat': $('#form-user').find('#alamat'),
+                'password': $('#form-user').find('#password'),
+                'span_cp': $('#form-user').find('#span_cp'),
+                'phone': $('#form-user').find('#phone'),
+                'email': $('#form-user').find('#email'),
+                'long': $('#form-user').find('#long'),
+                'lat': $('#form-user').find('#lat'),
+                'username': $('#form-user').find('#username'),
             }
 
-            $('.open-sebaran').on('click',
-                function() {
-                    window.open("{{ route('faskes.sebaran') }}", "_blank");
-                }
-            )
-            var dataFaskes = {}
+            var dataUser = {}
 
             swalLoading();
             $.when(
-                getAllFaskes(), ).then((e) => {
+                getAllUser(), ).then((e) => {
                 Swal.close();
             }).fail((e) => {
                 console.log(e)
             });
 
-            function getAllFaskes() {
+            function getAllUser() {
                 return $.ajax({
-                    url: `{{ route('faskes.get') }}`,
+                    url: `{{ route('agent.get') }}`,
                     'type': 'get',
                     data: toolbar.form.serialize(),
                     success: function(data) {
@@ -545,14 +375,14 @@
                         if (data['error']) {
                             return;
                         }
-                        dataFaskes = data['data'];
-                        renderFaskes(dataFaskes);
+                        dataUser = data['data'];
+                        renderUser(dataUser);
                     },
                     error: function(e) {}
                 });
             }
 
-            function renderFaskes(data) {
+            function renderUser(data) {
                 console.log(data)
                 if (data == null || typeof data != "object") {
                     console.log("User::UNKNOWN DATA");
@@ -571,12 +401,9 @@
                         '</ul>' +
                         '</div>' +
                         `<a href="<?= url('info-desa/sub-wilayah') ?>/${user['id']}" title="Lihat Detail" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit"><i class="mdi mdi-eye-outline" ></i></a>`;
-                    renderData.push([user['id'], button, user['name'], user['jen_faskes'] == null ? '' :
-                        user['jen_faskes']['name'], user[
-                            'alamat'],
-                        user['description'], user['phone'] + ' / ' + user['whatsapp'], user[
-                            'website'],
-                        user['long'] + ', ' + user['lat'], user['operasional_time'],
+                    renderData.push([user['id'], button, user['name'], user['role_title'], user['alamat'],
+                        user['phone'], user['email'],
+                        (user['long'] ? user['long'] + ', ' + user['lat'] : ''),
                     ]);
                 });
                 FDataTable.clear().rows.add(renderData).draw('full-hold');
@@ -585,66 +412,64 @@
 
             $('.create-new').on('click', function() {
 
-                clearMarkers()
-                FaskesForm.form.trigger('reset')
-                var $newOption4 = $("<option selected='selected'></option>").val('').text("--");
-                FaskesForm.user_id.append($newOption4).trigger('change');
-                FaskesForm.updateBtn.attr('style', 'display: none !important');
-                FaskesForm.insertBtn.attr('style', 'display: ""');
+                UserForm.form.trigger('reset')
+                // var $newOption4 = $("<option selected='selected'></option>").val('').text("--");
+                // UserForm.user_id.append($newOption4).trigger('change');
+                UserForm.updateBtn.attr('style', 'display: none !important');
+                UserForm.span_cp.hide();
+                UserForm.insertBtn.attr('style', 'display: ""');
+                UserForm.password.prop('required', true);
                 offCanvasEl.show();
             })
 
             FDataTable.on('click', '.edit', function() {
-                var currentData = dataFaskes[$(this).data('id')];
-                clearMarkers()
-                var edit_positition = {
-                    lng: parseFloat(currentData['long']),
-                    lat: parseFloat(currentData['lat']),
-                }
-                // const position = {
-                //     lat: -1.901627,
-                //     lng: 106.110315
-                // };
-                // -1.9241793, 106.1169299
+                var currentData = dataUser[$(this).data('id')];
 
-                var marker = new google.maps.Marker({
-                    map,
-                    title: currentData['name'],
-                    position: edit_positition,
-                });
-
-                markers.push(marker);
-                FaskesForm.form.trigger('reset')
-                var $newOption4 = $("<option selected='selected'></option>").val('').text("--");
-                FaskesForm.user_id.append($newOption4).trigger('change');
-                FaskesForm.insertBtn.attr('style', 'display: none !important');
-                FaskesForm.updateBtn.attr('style', 'display: ""');
+                UserForm.form.trigger('reset')
+                // var $newOption4 = $("<option selected='selected'></option>").val('').text("--");
+                // UserForm.user_id.append($newOption4).trigger('change');
+                UserForm.insertBtn.attr('style', 'display: none !important');
+                UserForm.updateBtn.attr('style', 'display: ""');
+                UserForm.password.prop('required', false);
                 offCanvasEl.show();
-
-                FaskesForm.id.val(currentData['id']);
-                FaskesForm.name.val(currentData['name']);
-                FaskesForm.alamat.val(currentData['alamat']);
-                FaskesForm.ref_jen_faskes_id.val(currentData['ref_jen_faskes_id']);
-                FaskesForm.description.val(currentData['description']);
-                FaskesForm.website.val(currentData['website']);
-                FaskesForm.phone.val(currentData['phone']);
-                FaskesForm.whatsapp.val(currentData['whatsapp']);
-                FaskesForm.long.val(currentData['long']);
-                FaskesForm.lat.val(currentData['lat']);
-                FaskesForm.operasional_time.val(currentData['operasional_time']);
-
+                UserForm.span_cp.show();
+                UserForm.id.val(currentData['id']);
+                UserForm.name.val(currentData['name']);
+                UserForm.alamat.val(currentData['alamat']);
+                UserForm.role_id.val(currentData['role_id']);
+                UserForm.email.val(currentData['email']);
+                UserForm.username.val(currentData['username']);
+                UserForm.phone.val(currentData['phone']);
             });
 
-            FaskesForm.insertBtn.on('click', () => {
+            var userForm = document.getElementById('form-user');
+
+
+            function validasi_form(event) {
+                if (!userForm.checkValidity()) {
+                    console.log(' not acc')
+                    validation_form = false;
+                    event.preventDefault();
+                    event.stopPropagation();
+                    userForm.classList.add('was-validated');
+                    return false;
+                } else {
+                    userForm.classList.add('was-validated');
+                    return true;
+                }
+            }
+            UserForm.form.on('submit', function(event) {
                 event.preventDefault();
-                submit_form('{{ route('faskes.create') }}', 'POST');
-            });
-            FaskesForm.updateBtn.on('click', () => {
-                event.preventDefault();
-                submit_form('{{ route('faskes.update') }}', 'PUT');
-            });
-
-            function submit_form(url, metode) {
+                if (!validasi_form(event)) {
+                    return
+                };
+                if (UserForm.insertBtn.is(":visible")) {
+                    url = '{{ route('agent.create') }}';
+                    metode = 'POST';
+                } else {
+                    url = '{{ route('agent.update') }}';
+                    metode = 'PUT';
+                }
                 Swal.fire(SwalOpt()).then((result) => {
                     if (!result.isConfirmed) {
                         return;
@@ -653,23 +478,23 @@
                     $.ajax({
                         url: url,
                         'type': metode,
-                        data: FaskesForm.form.serialize(),
+                        data: UserForm.form.serialize(),
                         success: function(data) {
                             if (data['error']) {
                                 swalError(data['message'], "Simpan Gagal !!");
                                 return;
                             }
                             var user = data['data']
-                            dataFaskes[user['id']] = user;
+                            dataUser[user['id']] = user;
                             swalBerhasil();
                             offCanvasEl.hide();
-                            renderFaskes(dataFaskes);
-                            // FaskesForm.self.modal('hide');
+                            renderUser(dataUser);
+                            // UserForm.self.modal('hide');
                         },
                         error: function(e) {}
                     });
                 });
-            };
+            });
 
             FDataTable.on('click', '.delete', function() {
                 event.preventDefault();
@@ -680,7 +505,7 @@
                         return;
                     }
                     $.ajax({
-                        url: "<?= route('faskes.delete') ?>/",
+                        url: "<?= route('agent.delete') ?>/",
                         'type': 'DELETE',
                         data: {
                             '_token': token,
@@ -691,16 +516,14 @@
                                 swalError(data['message'], "Simpan Gagal !!");
                                 return;
                             }
-                            delete dataFaskes[id];
+                            delete dataUser[id];
                             swalBerhasil('Data berhasil di Hapus');
-                            renderFaskes(dataFaskes);
+                            renderUser(dataUser);
                         },
                         error: function(e) {}
                     });
                 });
             });
-
-
 
         });
     </script>

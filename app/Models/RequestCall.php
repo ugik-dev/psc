@@ -19,4 +19,14 @@ class RequestCall extends Model
     {
         return $this->belongsTo(LoginSession::class);
     }
+
+    public function logs()
+    {
+        return $this->hasMany(RequestCallLog::class);
+    }
+
+    public function forms()
+    {
+        return $this->hasMany(Form::class);
+    }
 }

@@ -16,7 +16,12 @@ return new class extends Migration
             $table->id();
             $table->integer('role_id')->default('5');
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
+            $table->string('phone')->unique()->nullable();
+            $table->string('alamat')->nullable();
+            $table->string('long')->nullable();
+            $table->string('lat')->nullable();
+            $table->integer('status')->default('1');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('username')->unique();
             $table->string('password');

@@ -24,6 +24,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'username',
+        'phone',
+        'alamat',
+        'role_id',
     ];
 
     /**
@@ -48,8 +52,13 @@ class User extends Authenticatable
     public static $rules = [
         'username' => 'required|regex:/^[a-z0-9]+$/|unique:users',
     ];
-    public function role()
+    // public function role()
+    // {
+    //     return $this->belongsTo(Role::class);
+    // }
+
+    public function scopeWithRole($query)
     {
-        return $this->belongsTo(Role::class);
+        return $query->select('users.*')->selectRaw('roles.title as role_title')->leftJoin('roles', 'roles.id', '=', 'users.role_id');
     }
 }

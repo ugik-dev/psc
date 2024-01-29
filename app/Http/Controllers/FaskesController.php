@@ -26,6 +26,17 @@ class FaskesController extends Controller
         return view('page.faskes.index', compact('request', 'dataContent'));
     }
 
+    public function sebaran(Request $request)
+
+    {
+        $dataContent =  [
+            'refFaskes' => RefJenFaskes::get(),
+            'refEmergency' => RefEmergency::get()
+        ];
+        return view('page.faskes.sebaran', compact('request', 'dataContent'));
+    }
+
+
     public function get(Request $request)
     {
         try {

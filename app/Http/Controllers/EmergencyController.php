@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Form;
 use App\Models\LoginSession;
 use App\Models\RequestCall;
+use App\Models\RequestCallLog;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class EmergencyController extends Controller
@@ -40,7 +44,84 @@ class EmergencyController extends Controller
 
     public function detail($id, Request $request)
     {
+        $data = RequestCall::with(['login_session', 'ref_emergency', 'logs.user', 'forms', 'forms.user'])
+            ->findOrFail($id);
+        // dd($data);
+        return view('page.emergency.detail', ['dataContent' => $data]);
+    }
+
+    public function form($id, Request $request)
+    {
+        $data = RequestCall::with(['login_session', 'ref_emergency', 'logs.user', 'forms'])
+            ->findOrFail($id);
+        $form_url = route('emergency-form-save', ['id' => $data->id, 'id_form' => null]);
+        return view('page.emergency.form', ['dataContent' => $data, 'form_url' => $form_url]);
+    }
+
+    public function form_edit($id, $id_form, Request $request)
+    {
         $data = RequestCall::with(['login_session', 'ref_emergency'])
+            ->findOrFail($id);
+        $data_all = Form::find($id_form);
+        $jsonData = json_decode($data_all->form_data);
+        $form_url = route('emergency-form-save-edit', ['id' => $data->id, 'id_form' => $data_all->id]);
+        $compact = ['dataContent' => $data, 'form_url' => $form_url, 'dataForm' => $data_all, 'jsonData' => $jsonData];
+        return view('page.emergency.form', $compact);
+    }
+    public function form_save_new($id,  Request $request)
+    {
+        try {
+            return $this->form_save($id, null, $request);
+        } catch (Exception $ex) {
+            return  $this->ResponseError($ex->getMessage());
+        }
+    }
+    public function form_save($id, $id_form = null,  Request $request)
+    {
+        try {
+            $data = RequestCall::with(['login_session', 'ref_emergency', 'logs.user'])
+                ->findOrFail($id);
+
+            $formData = $request->except(['_token', 'gambar']);
+            $jsonData = json_encode($formData);
+
+            $valid_data = [
+                'request_call_id' => $data->id,
+                'user_id' => Auth::user()->id,
+                'form_data' => $jsonData
+            ];
+            if ($request->hasFile('gambar')) {
+                $gambar = $request->file('gambar');
+                $blobData = file_get_contents($gambar->getRealPath());
+                $valid_data['gambar'] = $blobData;
+            }
+            if (!empty($id_form)) {
+                $old_data = Form::find($id_form);
+                $old_data->update($valid_data);
+            } else {
+                Form::create($valid_data);
+            }
+            return $this->responseSuccess($id);
+        } catch (Exception $ex) {
+            return  $this->ResponseError($ex->getMessage());
+        }
+    }
+
+
+    public function action($id, $act = null, Request $request)
+    {
+        $data = RequestCall::with(['login_session', 'ref_emergency'])
+            ->findOrFail($id);
+        if (!empty($act)) {
+            if ($act == 'pick-off') {
+                RequestCallLog::create([
+                    'request_call_id' => $data->id,
+                    'user_id' => Auth::user()->id,
+                    'action' => 'pick-off'
+                ]);
+            }
+        }
+        $data = RequestCall::with(['login_session', 'ref_emergency', 'logs.user'])
             ->findOrFail($id);
         return view('page.emergency.detail', ['dataContent' => $data]);
     }

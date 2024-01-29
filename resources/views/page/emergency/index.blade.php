@@ -32,17 +32,16 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="emergencyModalLabel">Emergency Alert</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button>
+                    </button> --}}
                 </div>
                 <div class="modal-body">
                     <img src="/assets/gif/siren.gif" />
-                    <p>Emergency! Please stay alert.</p>
+                    <p id="emergency_info"></p>
                 </div>
                 <button type="button" id="pickOffBtn" class="btn btn-xl btn-warning" data-dismiss="modal">Pickof</button>
                 <div class="modal-footer">
-                    {{-- <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button> --}}
                 </div>
             </div>
         </div>
@@ -61,6 +60,7 @@
                 serverSide: true,
                 searching: true,
                 ordering: true,
+                order: [0, 'desc'],
                 ajax: {
                     url: "{{ route('emergency') }}"
                 },
@@ -89,7 +89,7 @@
                     data: "aksi",
                     name: "aksi"
                 }, ]
-            });;
+            });
 
             var currenPickOff = null;
             Pusher.logToConsole = true;
@@ -131,14 +131,20 @@
                         'id_request': d['idRequest']
                     },
                     success: (data) => {
-                        console.log(data)
+                        console.log(data['data']['data'])
+                        var currentData = data['data']['data']
                         if (data['error']) {
                             newData(d);
                             alert("Koneksi Terputus, lakukan refres halaman")
                             return;
                         }
                         currenPickOff = d['idRequest']
+
                         $('#emergencyModal').modal('show');
+                        $('#emergency_info').html(
+                            `<b> ${currentData['emergency_name']}<br> ${currentData['name']}</b>`
+                        );
+
                         audio.play()
                         audio.addEventListener('ended', function() {
                             audio.play()
@@ -147,7 +153,8 @@
                         console.log(currenPickOff)
                         document.getElementById('pickOffBtn').addEventListener('click', function() {
                             $('#emergencyModal').modal('hide');
-                            window.open("{{ url('emergency/') }}/" + currenPickOff,
+                            window.open("{{ url('emergency-act/') }}/" + currenPickOff +
+                                '/pick-off',
                                 '_blank');
                             stopAudio();
                         });
@@ -158,9 +165,9 @@
                 });
 
             }
-            // newData({
-            //     'idRequest': 4004
-            // })
+            newData({
+                'idRequest': 1
+            })
         });
     </script>
 @endpush

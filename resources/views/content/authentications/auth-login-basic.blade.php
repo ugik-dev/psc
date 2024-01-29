@@ -2,7 +2,7 @@
     $configData = Helper::appClasses();
     $customizerHidden = 'customizer-hide';
 @endphp @extends('layouts/layoutMaster')
-@section('title', 'Login Basic - Pages') @section('vendor-style')
+@section('title', 'Login') @section('vendor-style')
 <!-- Vendor -->
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/@form-validation/umd/styles/index.min.css') }}" />
 @endsection @section('page-style')
@@ -35,7 +35,7 @@
                     {{-- <h4 class="mb-2">PSC 119</h4>
                     <h4 class="mb-2">Sepintu Sedulang</h4>
                     <h4 class="mb-2">Kabupaten Bangka</h4> --}}
-                    <p class="mb-4">Please sign-in to your account and start the adventure</p>
+                    <p class="mb-4">Masukkan username dan password.</p>
                     @if (session('error'))
                         <p>{{ session('error') }}</p>
                     @endif

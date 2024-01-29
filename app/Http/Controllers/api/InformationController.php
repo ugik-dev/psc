@@ -39,8 +39,8 @@ class InformationController extends Controller
             )
                 ->join('ref_jen_faskes', 'ref_jen_faskes.id', '=', 'faskes.ref_jen_faskes_id')
                 ->get();
-            if (isset($request->long, $request->lat)) {
-                // Your code here
+            if (!empty($request->long) && !empty($request->lat)) {
+                // dd($data);
                 $newData =  $this->getDistance($request, $data);
             } else {
                 // Handle the case when either $request->long or $request->lat is not set or is null
@@ -68,6 +68,7 @@ class InformationController extends Controller
                 ],
             ]);
 
+            // dd($origin, $destination);
             $data = json_decode($response->getBody(), true);
             if ($data['status'] == 'OK') {
                 $distanceInMeters = $data['rows'][0]['elements'][0]['distance']['value'];

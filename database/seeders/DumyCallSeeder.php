@@ -6,6 +6,7 @@ use App\Models\LoginSession;
 use App\Models\RequestCall;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DumyCallSeeder extends Seeder
 {
@@ -23,6 +24,30 @@ class DumyCallSeeder extends Seeder
                 $randomCoordinates = $this->generateRandomCoordinates();
                 RequestCall::create(['login_session_id' => $p, 'ref_emergency_id' => rand(1, 6), 'status' => '1', 'long' => $randomCoordinates['long'], 'lat' => $randomCoordinates['lat']]);
             }
+        }
+
+        $sqlFilePath = database_path('seeders/sql/contents.sql');
+        if (file_exists($sqlFilePath)) {
+            $sqlContent = file_get_contents($sqlFilePath);
+            DB::unprepared($sqlContent);
+        } else {
+            echo "SQL file not found at $sqlFilePath\n";
+        }
+
+        $sqlFilePath = database_path('seeders/sql/faskes.sql');
+        if (file_exists($sqlFilePath)) {
+            $sqlContent = file_get_contents($sqlFilePath);
+            DB::unprepared($sqlContent);
+        } else {
+            echo "SQL file not found at $sqlFilePath\n";
+        }
+
+        $sqlFilePath = database_path('seeders/sql/live_locations.sql');
+        if (file_exists($sqlFilePath)) {
+            $sqlContent = file_get_contents($sqlFilePath);
+            DB::unprepared($sqlContent);
+        } else {
+            echo "SQL file not found at $sqlFilePath\n";
         }
     }
 

@@ -295,6 +295,48 @@
                 </div>
             </div>
             <div class="card mb-4">
+                <h5 class="card-header">Form Kajian dan Tindakan
+                    <a class="btn btn-primary active float-end" href="{{ route('emergency-form', $dataContent->id) }}">+
+                        Form</a>
+
+                </h5>
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Agent</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            @foreach ($dataContent->forms as $form)
+                                <tr>
+                                    <td>{{ $form->created_at->format('d-m-Y  (H:i)') }}</td>
+                                    <td>{{ $form->user->name }}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item waves-effect"
+                                                    href="{{ route('emergency-form-edit', [$dataContent->id, $form->id]) }}"><i
+                                                        class="mdi mdi-pencil-outline me-1"></i> Edit</a>
+                                                <a class="dropdown-item waves-effect" href="javascript:void(0);"><i
+                                                        class="mdi mdi-trash-can-outline me-1"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+
+            <div class="card mb-4">
                 <div class="card-header">
                     <h5 class="card-title m-0">Log</h5>
                 </div>
@@ -312,18 +354,21 @@
                                 <p class="mt-2">{{ $dataContent->login_session->name }}</p>
                             </div>
                         </li>
-                        <li class="timeline-item timeline-item-transparent border-primary">
-                            <span class="timeline-point timeline-point-primary"></span>
-                            <div class="timeline-event">
-                                <div class="timeline-header">
-                                    <h6 class="mb-0">Pick-up</h6>
-                                    <span class="text-muted">{{ tanggalSort($dataContent->created_at) }},
-                                        ({{ tanggalJam($dataContent->created_at) }})</span>
+                        @foreach ($dataContent->logs as $log)
+                            <li class="timeline-item timeline-item-transparent border-primary">
+                                <span class="timeline-point timeline-point-primary"></span>
+                                <div class="timeline-event">
+                                    <div class="timeline-header">
+                                        <h6 class="mb-0">{{ $log->action }}</h6>
+                                        <span class="text-muted">{{ tanggalSort($log->created_at) }},
+                                            ({{ tanggalJam($log->created_at) }})
+                                        </span>
 
+                                    </div>
+                                    <p class="mt-2">by {{ $log->user->name }}</p>
                                 </div>
-                                <p class="mt-2">by Admin PSC</p>
-                            </div>
-                        </li>
+                            </li>
+                        @endforeach
                         <li class="timeline-item timeline-item-transparent border-transparent pb-0">
                             <span class="timeline-point timeline-point-success"></span>
                             <div class="timeline-event pb-0">
@@ -365,6 +410,8 @@
                     <p class=" mb-0">Mobile: +1 (609) 972-22-22</p>
                 </div>
             </div>
+
+
         </div>
     </div>
 
