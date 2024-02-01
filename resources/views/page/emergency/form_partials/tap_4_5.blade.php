@@ -19,14 +19,14 @@
                                     <div class="my-3" id="skala_nyeri_sliders"></div>
                                     <input class="form-control d-inline-block mt-2" type="number" min="0"
                                         max="10" step="1" id="skala_nyeri" name="skala_nyeri"
-                                        value="{{ $jsonData->skala_nyeri ?? 0 }}" />
+                                        value="{{ $dataForm->skala_nyeri ?? 0 }}" />
                                 </div>
                                 <script>
                                     $(document).ready(function() {
                                         skalaNyeriUi = document.getElementById('skala_nyeri_sliders');
                                         skalaNyeriVal = document.getElementById('skala_nyeri');
                                         skalaNyeriUi = noUiSlider.create(skalaNyeriUi, {
-                                            start: [{{ $jsonData->skala_nyeri ?? 0 }}],
+                                            start: [{{ $dataForm->skala_nyeri ?? 0 }}],
                                             behaviour: 'tap-drag',
                                             step: 1,
                                             tooltips: true,
@@ -71,7 +71,7 @@
                                             ],
                                             'ml-3 mr-3',
                                             'sm-3',
-                                            $jsonData->expo ?? '',
+                                            $dataForm->expo ?? '',
                                         ) !!}
                                     </div>
                                 </div>

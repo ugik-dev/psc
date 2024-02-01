@@ -320,6 +320,9 @@
                                                 data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item waves-effect"
+                                                    href="{{ route('emergency-form-print', [$dataContent->id, $form->id]) }}"><i
+                                                        class="mdi mdi-printer me-1"></i> Print</a>
+                                                <a class="dropdown-item waves-effect"
                                                     href="{{ route('emergency-form-edit', [$dataContent->id, $form->id]) }}"><i
                                                         class="mdi mdi-pencil-outline me-1"></i> Edit</a>
                                                 <a class="dropdown-item waves-effect" href="javascript:void(0);"><i

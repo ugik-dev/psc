@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="col-md">
-                            {!! input_inline('gcs', '1. DISABILITY (GCS)', 'sm-3', 'sm-9', '', $jsonData->gcs ?? '') !!}
+                            {!! input_inline('gcs', '1. DISABILITY (GCS)', 'sm-3', 'sm-9', '', $dataForm->gcs ?? '') !!}
                             <hr>
                             <div class="col-md">
                                 <div class="row mb-3">
@@ -30,7 +30,7 @@
                                             ],
                                             'ml-3 mr-3',
                                             'sm-5',
-                                            $jsonData->gcs_res_mata ?? '',
+                                            $dataForm->gcs_res_mata ?? '',
                                         ) !!}
                                     </div>
                                 </div>
@@ -54,7 +54,7 @@
                                             ],
                                             'ml-3 mr-3',
                                             'sm-12',
-                                            $jsonData->gcs_res_verbal ?? '',
+                                            $dataForm->gcs_res_verbal ?? '',
                                         ) !!}
                                     </div>
                                 </div>
@@ -78,7 +78,7 @@
                                             ],
                                             'ml-3 mr-3',
                                             'sm-12',
-                                            $jsonData->gcs_res_motorik ?? '',
+                                            $dataForm->gcs_res_motorik ?? '',
                                         ) !!}
                                     </div>
                                 </div>
@@ -91,8 +91,8 @@
                                         Tindakan
                                     </label>
                                     <div class="col-sm-9">
-                                        {!! input_inline('gcs_t_posisi', 'Posisi', 'sm-3', 'sm-9', '', $jsonData->gcs_t_posisi ?? '') !!}
-                                        {!! input_inline('gcs_t_gds', 'GDS', 'sm-3', 'sm-9', 'mg/dl', $jsonData->gcs_t_gds ?? '') !!}
+                                        {!! input_inline('gcs_t_posisi', 'Posisi', 'sm-3', 'sm-9', '', $dataForm->gcs_t_posisi ?? '') !!}
+                                        {!! input_inline('gcs_t_gds', 'GDS', 'sm-3', 'sm-9', 'mg/dl', $dataForm->gcs_t_gds ?? '') !!}
                                     </div>
                                 </div>
                             </div>

@@ -13,15 +13,17 @@ class InformationController extends Controller
 {
     //
 
-    public function index(Request $request)
+    public function index(Request $request, $slug = null)
     {
         try {
             $data = Content::select(
                 'contents.*',
                 'ref_contents.name as name_content'
             )
-                ->join('ref_contents', 'ref_contents.id', '=', 'contents.ref_content_id')
-                ->get();
+                ->join('ref_contents', 'ref_contents.id', '=', 'contents.ref_content_id');
+            if (!empty($slug)) $data = $data->where('slug', '=', $slug)->first();
+            else
+                $data = $data->get();
 
             return $this->responseSuccess($data);
         } catch (Exception $ex) {

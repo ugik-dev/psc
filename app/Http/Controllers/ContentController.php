@@ -48,8 +48,27 @@ class ContentController extends Controller
                 'ref_content_id' => $request->ref_content_id,
                 'slug' => $slug,
             ];
+
+
+
             $data = Content::create($att);
             $data = Content::with('ref_content')->find($data->id);
+
+            $request->validate([
+                'file_sampul' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Add appropriate validation rules
+                // Other validation rules for your form fields
+            ]);
+
+            // Handle the file upload
+            if ($request->hasFile('file_sampul')) {
+                $photo = $request->file('file_sampul');
+                $originalFilename = time() . $photo->getClientOriginalName(); // Ambil nama asli file
+                $path = $photo->storeAs('upload/content', $originalFilename, 'public');
+                $data->sampul = $originalFilename;
+                $data->save();
+                $data->sampul = $originalFilename; // Simpan nama asli file ke dalam atribut foto pada model
+                $data->save();
+            }
 
             return  $this->responseSuccess($data);
         } catch (Exception $ex) {

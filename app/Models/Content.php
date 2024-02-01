@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class Content extends Model
 {
     use HasFactory;
-    protected $fillable = ['judul', 'slug', 'content', 'tanggal', 'ref_content_id'];
+    protected $fillable = ['judul', 'slug', 'content', 'tanggal', 'ref_content_id', 'sampul'];
 
     public function scopeCreateUniqueSlug($query, $title)
     {

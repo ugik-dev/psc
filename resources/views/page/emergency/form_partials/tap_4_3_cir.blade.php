@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="col-md">
-                            {!! input_inline('cir_cap_refil', '1. Capilary refil', 'sm-3', 'sm-9', 'dt', $jsonData->cir_cap_refil ?? '') !!}
+                            {!! input_inline('cir_cap_refil', '1. Capilary refil', 'sm-3', 'sm-9', 'dt', $dataForm->cir_cap_refil ?? '') !!}
                             <hr>
                             <div class="col-md">
                                 <div class="row mb-3">
@@ -24,7 +24,7 @@
                                             ['normal' => 'Normal', 'pucat' => 'Pucat', 'kemerahan' => 'Kemerahan', 'sianosis' => 'Sianosis'],
                                             'ml-3 mr-3',
                                             '',
-                                            $jsonData->cir_col_kulit ?? '',
+                                            $dataForm->cir_col_kulit ?? '',
                                         ) !!}
                                     </div>
                                 </div>
@@ -41,7 +41,7 @@
                                             ['normal' => 'Normal', 'hangat' => 'Hangat', 'dingin' => 'Dingin', 'kering' => 'Kering', 'lembab' => 'Lembab'],
                                             'ml-3 mr-3',
                                             '',
-                                            $jsonData->cir_kulit ?? '',
+                                            $dataForm->cir_kulit ?? '',
                                         ) !!}
                                     </div>
                                 </div>
@@ -53,7 +53,7 @@
                                         4. Nadi
                                     </label>
                                     <div class="col-sm-9">
-                                        {!! input_inline('cir_nadi_tempat', 'Tempat', 'sm-3', 'sm-9', '', $jsonData->cir_nadi_tempat ?? '') !!}
+                                        {!! input_inline('cir_nadi_tempat', 'Tempat', 'sm-3', 'sm-9', '', $dataForm->cir_nadi_tempat ?? '') !!}
                                         <hr>
                                         <div class="col-sm-12">
                                             {!! input_radios(
@@ -69,7 +69,7 @@
                                                 ],
                                                 'ml-3 mr-3',
                                                 'sm-3',
-                                                $jsonData->cir_nadi ?? '',
+                                                $dataForm->cir_nadi ?? '',
                                             ) !!}
                                         </div>
                                     </div>
@@ -83,23 +83,23 @@
 
                                     </label>
                                     <div class="col-sm-9">
-                                        {!! input_inline('cir_monitor', 'Pasang Monitor', 'sm-3', 'sm-9', '', $jsonData->cir_monitor ?? '') !!}
+                                        {!! input_inline('cir_monitor', 'Pasang Monitor', 'sm-3', 'sm-9', '', $dataForm->cir_monitor ?? '') !!}
                                         <div class="row mt-3">
                                             <label class="col-sm-3 col-form-label" for="multicol-username">EKG</label>
                                             <div class="col-sm-9">
                                                 <div class="input-group">
-                                                    <textarea type="text" id="cir_ekg" name="cir_ekg" rows="4" class="form-control">{!! $jsonData->cir_ekg ?? '' !!}</textarea>
+                                                    <textarea type="text" id="cir_ekg" name="cir_ekg" rows="4" class="form-control">{!! $dataForm->cir_ekg ?? '' !!}</textarea>
                                                 </div>
                                             </div>
                                         </div>
-                                        {!! input_inline('cir_cpr', 'CPR', 'sm-3', 'sm-9', 'mt', $jsonData->cir_cpr ?? '') !!}
-                                        {!! input_inline('cir_ifvd', 'IFVD', 'sm-3', 'sm-9', 'tts/ms', $jsonData->cir_ifvd ?? '') !!}
+                                        {!! input_inline('cir_cpr', 'CPR', 'sm-3', 'sm-9', 'mt', $dataForm->cir_cpr ?? '') !!}
+                                        {!! input_inline('cir_ifvd', 'IFVD', 'sm-3', 'sm-9', 'tts/ms', $dataForm->cir_ifvd ?? '') !!}
 
 
-                                        {!! input_checkbox('cir_tensi', 'Periksa Tensi', '', $jsonData->cir_tensi ?? '') !!}
-                                        {!! input_checkbox('cir_balut_tekan', 'Balut Tekan', '', $jsonData->cir_balut_tekan ?? '') !!}
-                                        {!! input_checkbox('cir_bebat_tekan', 'Bebat Tekan', '', $jsonData->cir_bebat_tekan ?? '') !!}
-                                        {!! input_checkbox('cir_defibrator', 'Defibrator', '', $jsonData->cir_defibrator ?? '') !!}
+                                        {!! input_checkbox('cir_tensi', 'Periksa Tensi', '', $dataForm->cir_tensi ?? '') !!}
+                                        {!! input_checkbox('cir_balut_tekan', 'Balut Tekan', '', $dataForm->cir_balut_tekan ?? '') !!}
+                                        {!! input_checkbox('cir_bebat_tekan', 'Bebat Tekan', '', $dataForm->cir_bebat_tekan ?? '') !!}
+                                        {!! input_checkbox('cir_defibrator', 'Defibrator', '', $dataForm->cir_defibrator ?? '') !!}
                                     </div>
                                 </div>
                             </div>

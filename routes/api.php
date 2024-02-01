@@ -15,6 +15,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/login-live-location', [LoginController::class, 'loginLiveLocation']);
 Route::post('/faskes', [InformationController::class, 'faskes']);
+Route::get('/content/{slug}', [InformationController::class, 'index']);
 Route::get('/content', [InformationController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/request', [RequestController::class, 'post']);
 Route::middleware('auth:sanctum')->post('/send-live-location', [LiveLocationController::class, 'update_location']);

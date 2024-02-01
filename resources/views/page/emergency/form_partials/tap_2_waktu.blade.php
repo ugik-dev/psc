@@ -38,22 +38,27 @@
                         <div class="col-sm-6 mb-2">
                             <label for="waktu_berangkat" class="form-label">Waktu Berangkat:</label>
                             <input type="time" class="form-control" id="waktu_berangkat" name="waktu_berangkat"
-                                value="{{ $jsonData->waktu_berangkat ?? '' }}" required>
+                                value="{{ $dataForm->waktu_berangkat ?? '' }}" required>
                         </div>
                         <div class="col-sm-6 mb-2">
                             <label for="waktu_tkp" class="form-label">Waktu Tiba TKP:</label>
                             <input type="time" class="form-control" id="waktu_tkp" name="waktu_tkp"
-                                value="{{ $jsonData->waktu_tkp ?? '' }}">
+                                value="{{ $dataForm->waktu_tkp ?? '' }}">
                         </div>
                         <div class="col-sm-6 mb-2">
                             <label for="waktu_yankes" class="form-label">Waktu Tiba di Yankes:</label>
                             <input type="time" class="form-control" id="waktu_yankes" name="waktu_yankes"
-                                value="{{ $jsonData->waktu_yankes ?? '' }}">
+                                value="{{ $dataForm->waktu_yankes ?? '' }}">
                         </div>
                         <div class="col-sm-6 mb-2">
                             <label for="waktu_rujukan" class="form-label">Waktu Tiba di Tempat Rujukan:</label>
                             <input type="time" class="form-control" id="waktu_rujukan" name="waktu_rujukan"
-                                value="{{ $jsonData->waktu_rujukan ?? '' }}">
+                                value="{{ $dataForm->waktu_rujukan ?? '' }}">
+                        </div>
+                        <div class="col-sm-6 mb-2">
+                            <label for="tempat_rujukan" class="form-label">Tempat Rujukan:</label>
+                            <input type="text" class="form-control" id="tempat_rujukan" name="tempat_rujukan"
+                                value="{{ $dataForm->tempat_rujukan ?? '' }}">
                         </div>
 
                     </div>

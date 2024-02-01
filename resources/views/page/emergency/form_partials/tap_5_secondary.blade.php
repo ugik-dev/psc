@@ -24,25 +24,25 @@
                 <div class="accordion-body">
                     <div class="row">
                         <div class="col-md-6">
-                            {!! input_inline('sec_nipb', 'NIPB : ', 'sm-3', 'sm-9', 'mm/hg', $jsonData->sec_nipb ?? '') !!}
+                            {!! input_inline('sec_nipb', 'NIPB : ', 'sm-3', 'sm-9', 'mm/hg', $dataForm->sec_nipb ?? '') !!}
                         </div>
                         <div class="col-md-6">
-                            {!! input_inline('sec_hr', 'HR : ', 'sm-3', 'sm-9', 'x/mt', $jsonData->sec_hr ?? '') !!}
+                            {!! input_inline('sec_hr', 'HR : ', 'sm-3', 'sm-9', 'x/mt', $dataForm->sec_hr ?? '') !!}
                         </div>
                         <div class="col-md-6">
-                            {!! input_inline('sec_temp', 'Temp : ', 'sm-3', 'sm-9', '&deg;C', $jsonData->sec_temp ?? '') !!}
+                            {!! input_inline('sec_temp', 'Temp : ', 'sm-3', 'sm-9', '&deg;C', $dataForm->sec_temp ?? '') !!}
                         </div>
                         <div class="col-md-6">
-                            {!! input_inline('sec_rr', 'RR :', 'sm-3', 'sm-9', 'x/mt', $jsonData->sec_rr ?? '') !!}
+                            {!! input_inline('sec_rr', 'RR :', 'sm-3', 'sm-9', 'x/mt', $dataForm->sec_rr ?? '') !!}
                         </div>
-                        {!! textarea_inline('sec_riw_alergi', 'Riwayat Alergi ', 'sm-3', 'sm-9', '3', $jsonData->sec_riw_alergi ?? '') !!}
+                        {!! textarea_inline('sec_riw_alergi', 'Riwayat Alergi ', 'sm-3', 'sm-9', '3', $dataForm->sec_riw_alergi ?? '') !!}
                         {!! textarea_inline(
                             'sec_riw_makanan',
                             'Riwayat Makanan ',
                             'sm-3',
                             'sm-9',
                             '3',
-                            $jsonData->sec_riw_makanan ?? '',
+                            $dataForm->sec_riw_makanan ?? '',
                         ) !!}
                         {!! textarea_inline(
                             'sec_riw_penyakit_kel',
@@ -50,16 +50,16 @@
                             'sm-3',
                             'sm-9',
                             '3',
-                            $jsonData->sec_riw_penyakit_kel ?? '',
+                            $dataForm->sec_riw_penyakit_kel ?? '',
                         ) !!}
-                        {!! textarea_inline('sec_suspect', 'Suspect Diagnosis', 'sm-3', 'sm-9', '3', $jsonData->sec_riw_alergi ?? '') !!}
+                        {!! textarea_inline('sec_suspect', 'Suspect Diagnosis', 'sm-3', 'sm-9', '3', $dataForm->sec_riw_alergi ?? '') !!}
                         {!! textarea_inline(
                             'sec_terapi',
                             'Terapi/Obat Yang di Berikan',
                             'sm-3',
                             'sm-9',
                             '3',
-                            $jsonData->sec_terapi ?? '',
+                            $dataForm->sec_terapi ?? '',
                         ) !!}
 
                         <hr class="mt-3">

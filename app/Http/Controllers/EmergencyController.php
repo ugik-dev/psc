@@ -62,10 +62,9 @@ class EmergencyController extends Controller
     {
         $data = RequestCall::with(['login_session', 'ref_emergency'])
             ->findOrFail($id);
-        $data_all = Form::find($id_form);
-        $jsonData = json_decode($data_all->form_data);
+        $data_all = Form::with('user')->find($id_form);
         $form_url = route('emergency-form-save-edit', ['id' => $data->id, 'id_form' => $data_all->id]);
-        $compact = ['dataContent' => $data, 'form_url' => $form_url, 'dataForm' => $data_all, 'jsonData' => $jsonData];
+        $compact = ['dataContent' => $data, 'form_url' => $form_url, 'dataForm' => $data_all];
         return view('page.emergency.form', $compact);
     }
     public function form_save_new($id,  Request $request)
@@ -83,23 +82,25 @@ class EmergencyController extends Controller
                 ->findOrFail($id);
 
             $formData = $request->except(['_token', 'gambar']);
-            $jsonData = json_encode($formData);
+            // $jsonData = json_encode($formData);
 
             $valid_data = [
                 'request_call_id' => $data->id,
                 'user_id' => Auth::user()->id,
-                'form_data' => $jsonData
             ];
+            $formData['request_call_id'] = $data->id;
+            $formData['user_id'] = Auth::user()->id;
+
             if ($request->hasFile('gambar')) {
                 $gambar = $request->file('gambar');
                 $blobData = file_get_contents($gambar->getRealPath());
-                $valid_data['gambar'] = $blobData;
+                $formData['gambar'] = $blobData;
             }
             if (!empty($id_form)) {
                 $old_data = Form::find($id_form);
-                $old_data->update($valid_data);
+                $old_data->update($formData);
             } else {
-                Form::create($valid_data);
+                Form::create($formData);
             }
             return $this->responseSuccess($id);
         } catch (Exception $ex) {

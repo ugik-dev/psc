@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('judul');
             $table->string('slug')->unique();
             $table->text('content')->nullable();
+            $table->string('sampul')->nullable();
             $table->date('tanggal')->nullable();
             $table->timestamps();
         });

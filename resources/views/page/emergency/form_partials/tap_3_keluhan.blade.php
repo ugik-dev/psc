@@ -13,7 +13,7 @@
         <div class="accordion-item active">
             <div id="accordionKeluhan_utama-1" class="accordion-collapse collapse show">
                 <div class="accordion-body">
-                    <textarea type="text" rows="4" id="keluhan_utama" name="keluhan_utama" class="form-control">{{ $jsonData->keluhan_utama ?? '' }}</textarea>
+                    <textarea type="text" rows="4" id="keluhan_utama" name="keluhan_utama" class="form-control">{{ $dataForm->keluhan_utama ?? '' }}</textarea>
                 </div>
             </div>
         </div>

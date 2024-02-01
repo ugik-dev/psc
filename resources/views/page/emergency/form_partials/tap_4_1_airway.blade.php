@@ -12,10 +12,10 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="col-md">
-                            {!! input_checkbox('airway_bebas', 'Bebas', '', $jsonData->airway_bebas ?? '') !!}
-                            {!! input_checkbox('airway_tiak_efektif', 'Tidak Efektif', '', $jsonData->airway_tiak_efektif ?? '') !!}
-                            {!! input_checkbox('airway_benda_asing', 'Benda Asing', '', $jsonData->airway_benda_asing ?? '') !!}
-                            {!! input_checkbox('airway_c_spine', 'C-Spine', '', $jsonData->airway_c_spine ?? '') !!}
+                            {!! input_checkbox('airway_bebas', 'Bebas', '', $dataForm->airway_bebas ?? '') !!}
+                            {!! input_checkbox('airway_tiak_efektif', 'Tidak Efektif', '', $dataForm->airway_tiak_efektif ?? '') !!}
+                            {!! input_checkbox('airway_benda_asing', 'Benda Asing', '', $dataForm->airway_benda_asing ?? '') !!}
+                            {!! input_checkbox('airway_c_spine', 'C-Spine', '', $dataForm->airway_c_spine ?? '') !!}
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -25,7 +25,7 @@
                                 'airway_t_bebaskan_jalan_napas',
                                 'Bebaskan Jalan Napas',
                                 '',
-                                $jsonData->airway_t_bebaskan_jalan_napas ?? '',
+                                $dataForm->airway_t_bebaskan_jalan_napas ?? '',
                             ) !!}
                             {!! input_checkbox(
                                 'airway_t_kel_ben',
@@ -36,9 +36,9 @@
                                     '',
                                     'sm-12',
                                     '',
-                                    $jsonData->airway_t_kel_ben_val ?? '',
+                                    $dataForm->airway_t_kel_ben_val ?? '',
                                 ),
-                                $jsonData->airway_t_kel_ben ?? '',
+                                $dataForm->airway_t_kel_ben ?? '',
                             ) !!}
                             {!! input_checkbox(
                                 'airway_t_fik_man',
@@ -48,17 +48,17 @@
                                     ['head_tilt' => 'Head Tilt', 'chin_lit' => 'Chin Lit', 'jaw_trush' => 'Jaw Thrus'],
                                     '6',
                                     '6',
-                                    $jsonData->airway_t_fik_man_val ?? '',
+                                    $dataForm->airway_t_fik_man_val ?? '',
                                 ),
-                                $jsonData->airway_t_fik_man ?? '',
+                                $dataForm->airway_t_fik_man ?? '',
                             ) !!}
-                            {!! input_checkbox('airway_t_col_brance', 'Colar brance', '', $jsonData->airway_t_col_brance ?? '') !!}
-                            {!! input_checkbox('airway_t_opa', 'OPA', '', $jsonData->airway_t_opa ?? '') !!}
+                            {!! input_checkbox('airway_t_col_brance', 'Colar brance', '', $dataForm->airway_t_col_brance ?? '') !!}
+                            {!! input_checkbox('airway_t_opa', 'OPA', '', $dataForm->airway_t_opa ?? '') !!}
                             {!! input_checkbox(
                                 'airway_t_intubasi',
                                 'Intubasi / Needle krokotirodektomie',
                                 '',
-                                $jsonData->airway_t_intubasi ?? '',
+                                $dataForm->airway_t_intubasi ?? '',
                             ) !!}
                         </div>
                     </div>

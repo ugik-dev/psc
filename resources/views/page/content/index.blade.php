@@ -98,6 +98,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="basicFullname">Gambar Sampul :</label>
+                        <div class="input-group input-group-merge">
+                            <span id="basicFullname2" class="input-group-text"><i class="mdi mdi-file"></i></span>
+                            <input type="file" id="file_sampul" class="form-control dt-full-name" name="file_sampul"
+                                accept="image/*" aria-label="" aria-describedby="basicFullname2" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6"></div>
+                </div>
                 <div class="col-sm-12">
                     <a type="" class="btn btn-primary data-submit me-sm-3 me-1 text-white" id="insertBtn"
                         data-metod="ins">Tambah</a>
@@ -360,6 +371,7 @@
                 'content': $('#form-content').find('#content'),
                 'ref_content_id': $('#form-content').find('#ref_content_id'),
                 'tanggal': $('#form-content').find('#tanggal'),
+                'file_sampul': $('#form-content').find('#file_sampul'),
             }
 
             var dataContent = {}
@@ -465,7 +477,9 @@
                     $.ajax({
                         url: url,
                         'type': metode,
-                        data: ContentForm.form.serialize(),
+                        processData: false,
+                        contentType: false,
+                        data: new FormData(ContentForm.form[0]),
                         success: function(data) {
                             if (data['error']) {
                                 swalError(data['message'], "Simpan Gagal !!");

@@ -79,6 +79,12 @@
                 <div>Manage Live Location</div>
             </a>
         </li>
+        <li class="menu-item">
+            <a href="{{ route('rekap.tindakan') }}" class="menu-link ">
+                <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
+                <div>Rekap Tindakan</div>
+            </a>
+        </li>
         <?php $menuData = []; ?>
         @if (!empty($menuData))
             @foreach ($menuData[0]->menu as $menu)

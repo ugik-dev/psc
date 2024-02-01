@@ -165,9 +165,9 @@
                 });
 
             }
-            newData({
-                'idRequest': 1
-            })
+            // newData({
+            //     'idRequest': 1
+            // })
         });
     </script>
 @endpush

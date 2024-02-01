@@ -13,6 +13,8 @@ use App\Http\Controllers\EmergencyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaskesController;
 use App\Http\Controllers\LiveLocationController;
+use App\Http\Controllers\PdfController;
+use App\Http\Controllers\RekapController;
 use App\Http\Controllers\UserController;
 use GuzzleHttp\Psr7\Request;
 
@@ -48,15 +50,23 @@ Route::get('emergency/{id}', [EmergencyController::class, 'detail'])->name('deta
 
 Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::get('emergency/{id}/form', [EmergencyController::class, 'form'])->name('emergency-form');
     Route::POST('emergency/{id}/form', [EmergencyController::class, 'form_save_new'])->name('emergency-form-save');
     Route::POST('emergency/{id}/{id_form}/form', [EmergencyController::class, 'form_save'])->name('emergency-form-save-edit');
     Route::get('emergency/{id}/{id_form}/form-edit', [EmergencyController::class, 'form_edit'])->name('emergency-form-edit');
-    Route::get('emergency-act/{id}/{act?}', [EmergencyController::class, 'action'])->name('pick-off');
 
+    Route::get('emergency/{id}/{id_form}/print', [PdfController::class, 'form_kejadian'])->name('emergency-form-print');
+    Route::get('emergency-act/{id}/{act?}', [EmergencyController::class, 'action'])->name('pick-off');
     Route::get('emergency', [EmergencyController::class, 'index'])->name('emergency');
+
     Route::get('pengguna', [EmergencyController::class, 'pengguna'])->name('pengguna');
     Route::get('sebaran-faskes', [FaskesController::class, 'sebaran'])->name('faskes.sebaran');
+
+    Route::prefix('rekap')->name('rekap.')->group(function () {
+        Route::get('', [RekapController::class, 'tindakan'])->name('tindakan');
+        Route::get('get', [RekapController::class, 'tindakan_get'])->name('tindakan.get');
+    });
 
     Route::prefix('manage-faskes')->name('faskes.')->group(function () {
         Route::get('', [FaskesController::class, 'index'])->name('index');

@@ -35,22 +35,22 @@
                         <div class="col-sm-6 mb-2">
                             <label for="nama_pasien" class="form-label">Nama Pasien</label>
                             <input class="form-control" id="nama_pasien" name="nama_pasien"
-                                value="{{ $jsonData->nama_pasien ?? '' }}" required>
+                                value="{{ $dataForm->nama_pasien ?? '' }}" required>
                         </div>
 
                         <div class="col-sm-6 mb-2">
                             <label for="phone_pasien" class="form-label">No Phone</label>
-                            <input value="{{ $jsonData->phone_pasien ?? '' }}" class="form-control" id="phone_pasien"
+                            <input value="{{ $dataForm->phone_pasien ?? '' }}" class="form-control" id="phone_pasien"
                                 name="phone_pasien">
                         </div>
                         <div class="col-sm-6 mb-2">
                             <label for="umur" class="form-label">Umur (Tahun)</label>
-                            <input type="number" value="{{ $jsonData->umur ?? '' }}" class="form-control"
+                            <input type="number" value="{{ $dataForm->umur ?? '' }}" class="form-control"
                                 id="umur" name="umur">
                         </div>
                         <div class="col-sm-6 mb-2">
                             <label for="jamkes" class="form-label">Jamkes:</label>
-                            <input type="text" class="form-control" value="{{ $jsonData->jamkes ?? '' }}"
+                            <input type="text" class="form-control" value="{{ $dataForm->jamkes ?? '' }}"
                                 id="jamkes" name="jamkes">
                         </div>
                         <div class="col-sm-6 mb-2">
@@ -60,7 +60,7 @@
                                 ['l' => 'Laki-laki', 'p' => 'Perempuan'],
                                 'ml-3 mr-3',
                                 '',
-                                $jsonData->jenis_kelamin ?? null,
+                                $dataForm->jenis_kelamin ?? null,
                             ) !!}
                         </div>
 
@@ -71,18 +71,18 @@
                                 ['diri' => 'Diri', 'orang_lain' => 'Orang Lain'],
                                 'ml-3 mr-3',
                                 '',
-                                $jsonData->sumber_informasi ?? null,
+                                $dataForm->sumber_informasi ?? null,
                             ) !!}
                         </div>
                         <div class="col-sm-6 mb-2">
                             <label for="lokasi_kejadian" class="form-label">Lokasi Kejadian:</label>
-                            <input type="text" value="{{ $jsonData->lokasi_kejadian ?? '' }}" class="form-control"
+                            <input type="text" value="{{ $dataForm->lokasi_kejadian ?? '' }}" class="form-control"
                                 id="lokasi_kejadian" name="lokasi_kejadian" required>
                         </div>
 
                         <div class="col-sm-6 mb-2">
                             <label for="alamat_rumah" class="form-label">Alamat Rumah:</label>
-                            <input type="text" class="form-control" value="{{ $jsonData->alamat_rumah ?? '' }}"
+                            <input type="text" class="form-control" value="{{ $dataForm->alamat_rumah ?? '' }}"
                                 id="alamat_rumah" name="alamat_rumah" required>
                         </div>
                     </div>
