@@ -29,7 +29,7 @@ class User extends Authenticatable
         'alamat',
         'role_id',
     ];
-
+    protected $keyLength = 191;
     /**
      * The attributes that should be hidden for serialization.
      *
