@@ -30,4 +30,4 @@ package-lock.json
 /public/assets/css
 /public/assets/vendor
 /public/index.php
-node_modules
+# node_modules
