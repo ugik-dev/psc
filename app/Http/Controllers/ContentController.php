@@ -56,17 +56,15 @@ class ContentController extends Controller
 
             $request->validate([
                 'file_sampul' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Add appropriate validation rules
-                // Other validation rules for your form fields
             ]);
 
-            // Handle the file upload
             if ($request->hasFile('file_sampul')) {
                 $photo = $request->file('file_sampul');
                 $originalFilename = time() . $photo->getClientOriginalName(); // Ambil nama asli file
                 $path = $photo->storeAs('upload/content', $originalFilename, 'public');
                 $data->sampul = $originalFilename;
                 $data->save();
-                $data->sampul = $originalFilename; // Simpan nama asli file ke dalam atribut foto pada model
+                $data->sampul = $originalFilename;
                 $data->save();
             }
 
