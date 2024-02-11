@@ -60,7 +60,7 @@ class ContentController extends Controller
                 $photo = $request->file('file_sampul');
                 $originalFilename = time() . $photo->getClientOriginalName(); // Ambil nama asli file
                 $path = $photo->storeAs('upload/content', $originalFilename, 'public');
-                dd($path);
+                // dd($path);
                 $data->sampul = $originalFilename;
                 $data->save();
             }
