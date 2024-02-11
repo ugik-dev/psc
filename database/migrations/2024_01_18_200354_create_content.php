@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
             // $table->foreignIdFor(RefContent::class);
-            $table->integer('ref_content_id');
+            $table->unsignedBigInteger('ref_content_id')->nullable();
             $table->foreign('ref_content_id')
                 ->references('id')
                 ->on('ref_contents')
