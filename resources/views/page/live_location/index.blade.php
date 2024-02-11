@@ -37,7 +37,7 @@
     @csrf
     <!-- DataTable with Buttons -->
     <div class="card">
-        <div class="card-datatable table-responsive pt-0">
+        <div class="card-datatable">
             <table id="FDataTable" class="table table-bordered">
                 <thead>
                     <tr>

@@ -34,7 +34,7 @@
         </li> --}}
         {{-- main menu --}}
         <li class="menu-item active">
-            <a href="#" class="menu-link ">
+            <a href="{{ route('dashboard') }}" class="menu-link ">
                 <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
                 <div>Dashboard</div>
             </a>
@@ -48,19 +48,24 @@
                 <div>Permintaan Darurat</div>
             </a>
         </li>
-        <li class="menu-item">
-            <a href="{{ route('pengguna') }}" class="menu-link ">
-                <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
-                <div>Pengguna Aplikasi</div>
-            </a>
-        </li>
+        @can('crud_users')
+            <li class="menu-item">
+                <a href="{{ route('pengguna') }}" class="menu-link ">
+                    <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
+                    <div>Pengguna Aplikasi</div>
+                </a>
+            </li>
+        @endcan
 
-        <li class="menu-item">
-            <a href="{{ route('content.index') }}" class="menu-link ">
-                <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
-                <div>Halaman Informasi</div>
-            </a>
-        </li>
+        @can('crud_information')
+            <li class="menu-item">
+                <a href="{{ route('content.index') }}" class="menu-link ">
+                    <i class="menu-icon tf-icons mdi mdi-home-outline"></i>
+                    <div>Halaman Informasi</div>
+                </a>
+            </li>
+        @endcan
+
         <li class="menu-item">
             <a href="{{ route('faskes.index') }}" class="menu-link ">
                 <i class="menu-icon tf-icons mdi mdi-home-outline"></i>

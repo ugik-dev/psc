@@ -15,6 +15,7 @@ use App\Http\Controllers\FaskesController;
 use App\Http\Controllers\LiveLocationController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\RekapController;
+use App\Http\Controllers\TindakanController;
 use App\Http\Controllers\UserController;
 use GuzzleHttp\Psr7\Request;
 
@@ -51,12 +52,15 @@ Route::get('emergency/{id}', [EmergencyController::class, 'detail'])->name('deta
 Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    Route::get('create-tindakan', [RekapController::class, 'form_tindakan'])->name('create-tindakan');
+
     Route::get('emergency/{id}/form', [EmergencyController::class, 'form'])->name('emergency-form');
     Route::POST('emergency/{id}/form', [EmergencyController::class, 'form_save_new'])->name('emergency-form-save');
     Route::POST('emergency/{id}/{id_form}/form', [EmergencyController::class, 'form_save'])->name('emergency-form-save-edit');
     Route::get('emergency/{id}/{id_form}/form-edit', [EmergencyController::class, 'form_edit'])->name('emergency-form-edit');
 
-    Route::get('emergency/{id}/{id_form}/print', [PdfController::class, 'form_kejadian'])->name('emergency-form-print');
+
+    Route::get('emergency/{id}/{id_form}/print/{format}', [PdfController::class, 'form_kejadian'])->name('emergency-form-print');
     Route::get('emergency-act/{id}/{act?}', [EmergencyController::class, 'action'])->name('pick-off');
     Route::get('emergency', [EmergencyController::class, 'index'])->name('emergency');
 
@@ -67,6 +71,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('', [RekapController::class, 'tindakan'])->name('tindakan');
         Route::get('get', [RekapController::class, 'tindakan_get'])->name('tindakan.get');
     });
+
+
+    Route::prefix('tindakan')->name('tindakan.')->group(function () {
+        Route::get('create', [EmergencyController::class, 'form_fresh'])->name('create');
+        Route::get('print/{id}/{format}', [PdfController::class, 'kejadian'])->name('print');
+        Route::post('save', [EmergencyController::class, 'form_save_new_fresh'])->name('save');
+        Route::get('edit/{id}', [EmergencyController::class, 'form_edit_fresh'])->name('edit');
+        Route::post('save-edit/{id}', [EmergencyController::class, 'form_save_edit_fresh'])->name('save-edit');
+    });
+
+
 
     Route::prefix('manage-faskes')->name('faskes.')->group(function () {
         Route::get('', [FaskesController::class, 'index'])->name('index');

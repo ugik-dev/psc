@@ -19,17 +19,19 @@
                 <div class="accordion-body">
                     <div class="row">
                         <div class="col-sm-6 mb-2">
-                            <label for="nama_pemanggil" class="form-label">Nama Pemanggil
-                                {{ $dataContent->login_session->name }}:</label>
-                            <input value="{{ $dataContent->login_session->name }}" class="form-control"
-                                id="nama_pemanggil" name="nama_pemanggil" readonly>
+                            <label for="nama_pemanggil" class="form-label">Nama Pemanggil :</label>
+                            <input value="{{ $dataContent->login_session->name ?? ($dataForm->nama_pemanggil ?? '') }}"
+                                class="form-control" id="nama_pemanggil" name="nama_pemanggil"
+                                {{ !empty($id) ? 'readonly' : '' }}>
                         </div>
 
                         <div class="col-sm-6 mb-2">
 
                             <label for="phone_pemanggil" class="form-label">No Telp Pemanggil</label>
-                            <input value=" {{ $dataContent->login_session->phone }}" class="form-control"
-                                id="phone_pemanggil" name="phone_pemanggil" readonly>
+                            <input
+                                value=" {{ $dataContent->login_session->phone ?? ($dataForm->phone_pemanggil ?? '') }}"
+                                class="form-control" id="phone_pemanggil" name="phone_pemanggil"
+                                {{ !empty($id) ? 'readonly' : '' }}>
                         </div>
 
                         <div class="col-sm-6 mb-2">

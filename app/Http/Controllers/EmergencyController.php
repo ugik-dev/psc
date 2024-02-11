@@ -47,15 +47,29 @@ class EmergencyController extends Controller
         $data = RequestCall::with(['login_session', 'ref_emergency', 'logs.user', 'forms', 'forms.user'])
             ->findOrFail($id);
         // dd($data);
-        return view('page.emergency.detail', ['dataContent' => $data]);
+        $dataContent = $data;
+        return view('page.emergency.detail', compact('dataContent'));
+    }
+
+
+    public function form_fresh(Request $request)
+    {
+        return $this->form(null, $request);
     }
 
     public function form($id, Request $request)
     {
-        $data = RequestCall::with(['login_session', 'ref_emergency', 'logs.user', 'forms'])
-            ->findOrFail($id);
-        $form_url = route('emergency-form-save', ['id' => $data->id, 'id_form' => null]);
-        return view('page.emergency.form', ['dataContent' => $data, 'form_url' => $form_url]);
+        if ($id) {
+            $dataContent = RequestCall::with(['login_session', 'ref_emergency', 'logs.user', 'forms'])
+                ->findOrFail($id);
+            $form_url = route('emergency-form-save', ['id' => $dataContent->id, 'id_form' => null]);
+        } else {
+            $dataContent = null;
+            $form_url = route('tindakan.save', ['id_form' => null]);
+        }
+
+        // dd($request);
+        return view('page.emergency.form', compact('dataContent', 'form_url'));
     }
 
     public function form_edit($id, $id_form, Request $request)
@@ -67,6 +81,30 @@ class EmergencyController extends Controller
         $compact = ['dataContent' => $data, 'form_url' => $form_url, 'dataForm' => $data_all];
         return view('page.emergency.form', $compact);
     }
+
+    public function form_edit_fresh($id)
+    {
+        $data_all = Form::with('user')->find($id);
+        $form_url = route('tindakan.save-edit', ['id' => $data_all->id]);
+        $compact = ['form_url' => $form_url, 'dataForm' => $data_all];
+        return view('page.emergency.form', $compact);
+    }
+
+    public function form_save_edit_fresh($id, Request $request)
+    {
+        return $this->form_save(null, $id, $request);
+    }
+
+
+    public function form_save_new_fresh(Request $request)
+    {
+        try {
+            return $this->form_save(null, null, $request);
+        } catch (Exception $ex) {
+            return  $this->ResponseError($ex->getMessage());
+        }
+    }
+
     public function form_save_new($id,  Request $request)
     {
         try {
@@ -75,33 +113,71 @@ class EmergencyController extends Controller
             return  $this->ResponseError($ex->getMessage());
         }
     }
+
     public function form_save($id, $id_form = null,  Request $request)
     {
         try {
-            $data = RequestCall::with(['login_session', 'ref_emergency', 'logs.user'])
-                ->findOrFail($id);
+            if ($id) {
+                $data = RequestCall::with(['login_session', 'ref_emergency', 'logs.user'])
+                    ->findOrFail($id);
+            }
 
             $formData = $request->except(['_token', 'gambar']);
-            // $jsonData = json_encode($formData);
 
-            $valid_data = [
-                'request_call_id' => $data->id,
-                'user_id' => Auth::user()->id,
-            ];
-            $formData['request_call_id'] = $data->id;
+            if ($id) {
+                $formData['request_call_id'] = $data->id;
+            }
+
             $formData['user_id'] = Auth::user()->id;
 
             if ($request->hasFile('gambar')) {
-                $gambar = $request->file('gambar');
-                $blobData = file_get_contents($gambar->getRealPath());
-                $formData['gambar'] = $blobData;
+                // $gambar = $request->file('gambar');
+                // $blobData = file_get_contents($gambar->getRealPath());;
+                // $base64 = base64_encode($blobData);
+                // $formData['gambar'] = $base64;
+                // $formData['gambar'] = $blobData;
+                // $img = 'data:image/jpeg;base64,' . base64_encode($blobData);
+
+                // echo ($img);
+                // die();
             }
+
+
+            // if ($request->hasFile('gambar')) {
+            //     $photo = $request->file('gambar');
+            //     // $originalFilename = time().'.png' ; // Ambil nama asli file
+            //     $path = $photo->storeAs('upload/tindakan',  $id . '.png', 'public');
+            //     // dd($path);
+            //     // $data->sampul = $originalFilename;
+            //     // $data->save();
+            // }
+
             if (!empty($id_form)) {
+                if ($request->hasFile('gambar')) {
+                    $photo = $request->file('gambar');
+                    $path = $photo->storeAs('upload/tindakan',  $id_form . '.png', 'public');
+                    $formData['gambar'] = $id_form . '.png';
+                }
                 $old_data = Form::find($id_form);
+                $formData['request_call_id'] = $old_data->request_call_id;
                 $old_data->update($formData);
+                $id = $id_form;
             } else {
-                Form::create($formData);
+                $res = Form::create($formData);
+                $id =  $res->id;
+
+                if ($request->hasFile('gambar')) {
+                    $photo = $request->file('gambar');
+                    $path = $photo->storeAs('upload/tindakan',  $id . '.png', 'public');
+                    $res->gambar = $id . '.png';
+                    $res->save();
+                }
             }
+
+
+
+
+
             return $this->responseSuccess($id);
         } catch (Exception $ex) {
             return  $this->ResponseError($ex->getMessage());

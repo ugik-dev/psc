@@ -26,7 +26,10 @@ class RekapController extends Controller
             })->addColumn('umur', function ($data) {
                 return $data->umur;
             })->addColumn('aksi', function ($data) {
-                return '<a href="' . route('emergency-form-print', [$data->request_call_id, $data->id]) . '" target="_blank" class="btn btn-primary">Print</a>';
+                return '
+                <a href="' . route('tindakan.print', ['id' => $data->id,  'format' => '2']) . '" target="_blank" class="btn btn-primary">Print</a>
+                <a href="' . route('tindakan.edit', ['id' => $data->id,]) . '" target="_blank" class="btn btn-primary">Edit</a>
+                ';
             })->rawColumns(['aksi'])->make(true);
         }
         return view('page.rekap.tindakan', compact('request'));

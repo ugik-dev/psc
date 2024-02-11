@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('request_call_id');
+            $table->unsignedBigInteger('request_call_id')->nullable();
             $table->foreign('request_call_id')
                 ->references('id')
                 ->on('request_calls')
@@ -24,7 +24,7 @@ return new class extends Migration
                 ->on('users')
                 ->onDelete('cascade');
             $table->json('form_data')->nullable();
-            $table->binary('gambar')->nullable();
+            $table->string('gambar')->nullable();
             $table->timestamps();
             // data json
             $table->string('nama_pemanggil')->nullable();
@@ -37,6 +37,8 @@ return new class extends Migration
             $table->string('sumber_informasi')->nullable();
             $table->string('lokasi_kejadian')->nullable();
             $table->string('alamat_rumah')->nullable();
+            $table->date('tanggal')->nullable();
+            $table->string('waktu_panggilan')->nullable();
             $table->string('waktu_berangkat')->nullable();
             $table->string('waktu_tkp')->nullable();
             $table->string('waktu_yankes')->nullable();
@@ -86,6 +88,8 @@ return new class extends Migration
             $table->string('gcs_res_motorik')->nullable();
             $table->string('gcs_t_posisi')->nullable();
             $table->string('gcs_t_gds')->nullable();
+            $table->string('gcs_t_chol')->nullable();
+            $table->string('gcs_t_au')->nullable();
             $table->string('skala_nyeri')->nullable();
             $table->string('expo')->nullable();
             $table->string('sec_nipb')->nullable();

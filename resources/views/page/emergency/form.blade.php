@@ -20,47 +20,92 @@
 
 
     <h4 class="py-3 mb-4">
-        <span class="text-muted fw-light">Emergency Call /</span>
-        Form Kejadian
+        @if (!empty($id))
+            <span class="text-muted fw-light">Emergency Call /</span>
+            Form Kejadian
 
-        <a class="btn btn-primary float-end ms-2" href="{{ route('detail-emergency', $dataContent->id) }}"> <i
-                class="mdi mdi-keyboard-backspace me-2"></i>
+            {{-- <a class="btn btn-primary float-end ms-2" href="{{ route('detail-emergency', $dataContent->id) }}"> <i
+                    class="mdi mdi-keyboard-backspace me-2"></i>
+                Kembali</a> --}}
+        @else
+            <span class="text-muted fw-light">Tindakan /</span>
+            Tambah Tindakan Baru
+        @endif
+        <a class="btn btn-primary float-end ms-2"
+            href='{{ !empty($id) ? route('detail-emergency', $dataContent->id) : (!empty($dataForm->request_call_id) ? route('detail-emergency', $dataForm->request_call_id) : route('rekap.tindakan')) }}';>
+            <i class="mdi mdi-keyboard-backspace me-2"></i>
             Kembali</a>
-        <button class="btn btn-primary float-end" id="saveBtn"> <i class="mdi mdi-content-save-outline me-2"></i>
-            Save</button>
-    </h4>
 
-    <div class="row mt-4">
-        <div class="col-lg-3 col-md-4 col-12 mb-md-0 mb-3">
-            <div class="d-flex justify-content-between flex-column mb-2 mb-md-0">
-                @include('page.emergency.form_partials.menu')
-                <div class="d-none d-md-block">
-                    <div class="mt-5 text-center">
-                        <img src="{{ asset('assets/img/medis-form.png') }}" class="img-fluid w-px-120" alt="FAQ Image">
+    </h4>
+    <div class="container-fluid">
+        <!-- Konten utama halaman Anda -->
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-12 mb-md-0 mb-3  order-sm-last">
+                <div class="d-flex justify-content-between flex-column mb-2 mb-md-0">
+
+                    <button class="btn btn-warning float-end mb-2" id="saveBtn"> <i
+                            class="mdi mdi-content-save-outline me-2"></i>
+                        Save</button>
+                    @include('page.emergency.form_partials.menu')
+                    <div class="d-none d-md-block">
+                        <div class="mt-5 text-center">
+                            <img src="{{ asset('assets/img/medis-form.png') }}" class="img-fluid w-px-120" alt="FAQ Image">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-9 col-md-8 col-12">
-            <form class="needs-validation add-new-record pt-0 row g-3" id="form-tindakan" novalidate>
-                @csrf
-                <div class="tab-content p-0">
-                    @include('page.emergency.form_partials.tap_1_informasi')
-                    @include('page.emergency.form_partials.tap_2_waktu')
-                    @include('page.emergency.form_partials.tap_3_keluhan')
-                    @include('page.emergency.form_partials.tap_4_primary')
-                    @include('page.emergency.form_partials.tap_5_secondary')
-                </div>
-            </form>
+            <div class="col-lg-9 col-md-8 col-12 order-sm-first">
+                <form class="needs-validation add-new-record pt-0 row g-3" id="form-tindakan" novalidate>
+                    @csrf
+                    <div class="tab-content p-0">
+                        @include('page.emergency.form_partials.tap_1_informasi')
+                        @include('page.emergency.form_partials.tap_2_waktu')
+                        @include('page.emergency.form_partials.tap_3_keluhan')
+                        @include('page.emergency.form_partials.tap_4_primary')
+                        @include('page.emergency.form_partials.tap_5_secondary')
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+
+    <div class="container-fluid">
+
+        <div class="row mt-4">
+
+            {{-- <div class="col-lg-9 col-md-8 col-12 col-md-push-4"> --}}
+            {{-- <div class="col-md-6 order-sm-last">
+                <form class="needs-validation add-new-record pt-0 row g-3" id="form-tindakan" novalidate>
+                    @csrf
+                    <div class="tab-content p-0">
+                        @include('page.emergency.form_partials.tap_1_informasi')
+                        @include('page.emergency.form_partials.tap_2_waktu')
+                        @include('page.emergency.form_partials.tap_3_keluhan')
+                        @include('page.emergency.form_partials.tap_4_primary')
+                        @include('page.emergency.form_partials.tap_5_secondary')
+                    </div>
+                </form>
+            </div> --}}
+
+            {{-- <div class="col-lg-3 col-md-4 col-12 mb-md-0 mb-3 col-md-pull-8"> --}}
+            {{-- <div class="col-md-6 order-sm-first">
+                <div class="d-flex justify-content-between flex-column mb-2 mb-md-0">
+                    @include('page.emergency.form_partials.menu')
+                    <div class="d-none d-md-block">
+                        <div class="mt-5 text-center">
+                            <img src="{{ asset('assets/img/medis-form.png') }}" class="img-fluid w-px-120" alt="FAQ Image">
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+        </div>
+    </div>
+
     <script>
         $(document).ready(function() {
             var canvas = document.getElementById('myCanvas');
             var ctx = canvas.getContext('2d');
             var drawing = false;
-
-            function_drawing()
 
             var saveBtn = $('#saveBtn');
             var TindakanForm = {
@@ -128,13 +173,38 @@
                 'cir_defibrator': $('#form-tindakan').find('#cir_defibrator'), //cb
                 'gambarInput': $('#form-tindakan').find('#gambarInput'),
 
+                'gcs': $('#form-tindakan').find('#gcs'), //cb
                 // radio 
                 // jenis_kelamin
                 // sumber_informasi
             }
 
-            var tindakanForm = document.getElementById('form-tindakan');
+            $('input[name="gcs_res_verbal"]').change(function() {
+                count_gcs()
+            });
 
+            $('input[name="gcs_res_mata"]').change(function() {
+                count_gcs()
+            });
+
+            $('input[name="gcs_res_motorik"]').change(function() {
+                count_gcs()
+            });
+
+            function count_gcs() {
+                var gcs_e = parseInt($('input[name="gcs_res_mata"]:checked').val() ?? 0);
+                var gcs_v = parseInt($('input[name="gcs_res_verbal"]:checked').val() ?? 0);
+                var gcs_m = parseInt($('input[name="gcs_res_motorik"]:checked').val() ?? 0);
+
+                gcs = gcs_e + gcs_v + gcs_m;
+                TindakanForm.gcs.val(gcs);
+                console.log("Ey:", gcs_e);
+                console.log("Ver:", gcs_v);
+                console.log("Mtr:", gcs_m);
+                console.log("GCS:", gcs);
+            }
+
+            var tindakanForm = document.getElementById('form-tindakan');
 
             function validasi_form(event) {
                 if (!tindakanForm.checkValidity()) {
@@ -204,7 +274,7 @@
                                 return;
                             }
                             window.location.href =
-                                '{{ route('detail-emergency', $dataContent->id) }}';
+                                '{{ !empty($id) ? route('detail-emergency', $dataContent->id) : (!empty($dataForm->request_call_id) ? route('detail-emergency', $dataForm->request_call_id) : route('rekap.tindakan')) }}';
                         },
                         error: function(e) {}
                     });
@@ -227,103 +297,179 @@
                 });
             }
 
-            function function_drawing() {
-                var penConfig = {
-                    thickness: 5,
-                    color: '#000000',
-                    eraserMode: false
+            // function function_drawing() {
+            var penConfig = {
+                thickness: 5,
+                color: '#000000',
+                eraserMode: false
+            };
+
+            // Fungsi untuk memulai penggambaran
+            function startDrawing(e) {
+                e.preventDefault();
+                console.log('start draw')
+                drawing = true;
+                draw(e);
+            }
+
+            // Fungsi untuk mengakhiri penggambaran
+            function stopDrawing() {
+                console.log('stop draw')
+                drawing = false;
+                ctx.beginPath();
+            }
+
+            @if (!empty($dataForm->gambar))
+                // var gambarDataUrl = 'data:image/png;base64,{{ base64_encode($dataForm->gambar) }}';
+                var gambarDataUrl = '{{ url('/storage/upload/tindakan/' . $dataForm->gambar) }}';
+                console.log(gambarDataUrl)
+                var defaultImage = new Image();
+                defaultImage.src = gambarDataUrl;
+                defaultImage.onload = function() {
+                    ctx.drawImage(defaultImage, 0, 0);
                 };
+            @endif
 
-                // Fungsi untuk memulai penggambaran
-                function startDrawing(e) {
-                    e.preventDefault();
-                    drawing = true;
-                    draw(e);
+            // Fungsi untuk menggambar di atas canvas
+            function draw(e) {
+                if (!drawing) return;
+
+                if (e.touches && e.touches.length > 0) {
+                    // Tangani input sentuh (touch input)
+                    x = e.touches[0].clientX - canvas.getBoundingClientRect().left;
+                    y = e.touches[0].clientY - canvas.getBoundingClientRect().top;
+                } else {
+                    // Tangani input mouse
+                    x = e.clientX - canvas.getBoundingClientRect().left;
+                    y = e.clientY - canvas.getBoundingClientRect().top;
                 }
 
-                // Fungsi untuk mengakhiri penggambaran
-                function stopDrawing() {
-                    drawing = false;
+                if (penConfig.eraserMode) {
+                    var eraserSize = penConfig.thickness * 3;
+                    ctx.clearRect(x - eraserSize / 2, y - eraserSize / 2, eraserSize, eraserSize);
+                } else {
+                    ctx.strokeStyle = penConfig.color;
+                    ctx.lineWidth = penConfig.thickness;
+                    ctx.lineJoin = 'round';
+                    ctx.lineCap = 'round';
+
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+
                     ctx.beginPath();
+                    ctx.moveTo(x, y);
                 }
+            }
 
-                @if (!empty($dataForm->gambar))
-                    var gambarDataUrl = 'data:image/png;base64,{{ base64_encode($dataForm->gambar) }}';
-                    var defaultImage = new Image();
-                    defaultImage.src = gambarDataUrl;
-                    defaultImage.onload = function() {
-                        ctx.drawImage(defaultImage, 0, 0);
-                    };
-                @endif
+            // Fungsi untuk menghapus garis terakhir
+            function clearLine() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
 
-                // Fungsi untuk menggambar di atas canvas
-                function draw(e) {
-                    if (!drawing) return;
+            // Fungsi untuk menghapus seluruh gambar
+            function clearCanvas() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
 
-                    if (e.touches && e.touches.length > 0) {
-                        // Tangani input sentuh (touch input)
-                        x = e.touches[0].clientX - canvas.getBoundingClientRect().left;
-                        y = e.touches[0].clientY - canvas.getBoundingClientRect().top;
-                    } else {
-                        // Tangani input mouse
-                        x = e.clientX - canvas.getBoundingClientRect().left;
-                        y = e.clientY - canvas.getBoundingClientRect().top;
-                    }
+            // Fungsi untuk mengupdate konfigurasi pena
+            function updatePenConfig() {
+                penConfig.thickness = document.getElementById('ketebalanPena').value;
+                penConfig.color = document.getElementById('warnaPena').value;
+                penConfig.eraserMode = document.getElementById('modePenghapus').checked;
+            }
 
-                    if (penConfig.eraserMode) {
-                        var eraserSize = penConfig.thickness * 3;
-                        ctx.clearRect(x - eraserSize / 2, y - eraserSize / 2, eraserSize, eraserSize);
-                    } else {
-                        ctx.strokeStyle = penConfig.color;
-                        ctx.lineWidth = penConfig.thickness;
-                        ctx.lineJoin = 'round';
-                        ctx.lineCap = 'round';
-
-                        ctx.lineTo(x, y);
-                        ctx.stroke();
-
-                        ctx.beginPath();
-                        ctx.moveTo(x, y);
-                    }
+            function isCanvasFullscreen() {
+                return !!(document.fullscreenElement || document.webkitFullscreenElement || document
+                    .msFullscreenElement);
+            }
+            document.addEventListener('fullscreenchange', function() {
+                if (!document.fullscreenElement) {
+                    drawing = false; // Turn off drawing mode when exiting fullscreen
                 }
+            });
+            // Event listener untuk inputan ketebalan pena
+            document.getElementById('ketebalanPena').addEventListener('input', updatePenConfig);
+            document.getElementById('warnaPena').addEventListener('input', updatePenConfig);
+            document.getElementById('modePenghapus').addEventListener('change', updatePenConfig);
+            document.getElementById('hapusGambar').addEventListener('click', clearCanvas);
 
-                // Fungsi untuk menghapus garis terakhir
-                function clearLine() {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            $('#fullScreen').on('click', function() {
+                var el = document.getElementById('myCanvas');
+
+                if (el.webkitRequestFullScreen) {
+                    el.webkitRequestFullScreen();
+                } else {
+                    el.mozRequestFullScreen();
                 }
+                // if (!isCanvasFullscreen()) {
+                //     enterFullscreen(); // Masuk ke mode layar penuh saat mengklik canvas
+                // } else {
+                //     exitFullscreen(); // Keluar dari mode layar penuh jika sudah dalam mode layar penuh
+                // }
+                // updateEventListenerForFullscreen();
+            });
 
-                // Fungsi untuk menghapus seluruh gambar
-                function clearCanvas() {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+            function enterFullscreen() {
+                if (canvas.requestFullscreen) {
+                    canvas.requestFullscreen();
+                } else if (canvas.webkitRequestFullscreen) {
+                    /* Safari */
+                    canvas.webkitRequestFullscreen();
+                } else if (canvas.msRequestFullscreen) {
+                    /* IE11 */
+                    canvas.msRequestFullscreen();
                 }
+                isCanvasFullscreen = true;
+            }
 
-                // Fungsi untuk mengupdate konfigurasi pena
-                function updatePenConfig() {
-                    penConfig.thickness = document.getElementById('ketebalanPena').value;
-                    penConfig.color = document.getElementById('warnaPena').value;
-                    penConfig.eraserMode = document.getElementById('modePenghapus').checked;
+            // Fungsi untuk keluar dari mode layar penuh
+            function exitFullscreen() {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    /* Safari */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    /* IE11 */
+                    document.msExitFullscreen();
                 }
+                isCanvasFullscreen = false;
+            }
 
-                // Event listener untuk inputan ketebalan pena
-                document.getElementById('ketebalanPena').addEventListener('input', updatePenConfig);
+            updateEventListenerForFullscreen()
 
-                // Event listener untuk inputan warna pena
-                document.getElementById('warnaPena').addEventListener('input', updatePenConfig);
-
-                // Event listener untuk checkbox mode penghapus
-                document.getElementById('modePenghapus').addEventListener('change', updatePenConfig);
-
-                // Event listener untuk tombol Hapus Seluruh Gambar
-                document.getElementById('hapusGambar').addEventListener('click', clearCanvas);
-
+            function updateEventListenerForFullscreen() {
+                // if (isCanvasFullscreen()) {
+                console.log('masuk fullscren')
                 canvas.addEventListener('mousedown', startDrawing);
                 canvas.addEventListener('mouseup', stopDrawing);
                 canvas.addEventListener('mousemove', draw);
-
                 canvas.addEventListener('touchstart', startDrawing);
                 canvas.addEventListener('touchend', stopDrawing);
                 canvas.addEventListener('touchmove', draw);
+                // } else {
+                //     console.log('keluar fullscren')
+                //     canvas.removeEventListener('mousedown', handleDrawingEvent);
+                //     canvas.removeEventListener('mouseup', function() {
+                //         drawing = false;
+                //     });
+                //     canvas.removeEventListener('mousemove', handleDrawingEvent);
+
+                //     canvas.removeEventListener('touchstart', handleDrawingEvent);
+                //     canvas.removeEventListener('touchend', function() {
+                //         drawing = false;
+                //     });
+                //     canvas.removeEventListener('touchmove', handleDrawingEvent);
+                // }
             }
+
+
+            // }
+
+
+
+
         });
     </script>
 

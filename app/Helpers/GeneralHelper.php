@@ -124,13 +124,17 @@ if (!function_exists('tanggalJam')) {
 
 
 if (!function_exists('table_input')) {
-    function table_input($label, $value, $arr = ['10', '2', '50'])
+    function table_input($label, $value, $arr = ['100', '2', '50'], $tr = true)
     {
-        return '<tr class="no-border" > 
-                <td class="no-border"  width="' . $arr[0] . ' px">' . $label . '</td>
-                <td class="no-border"  width="' . $arr[1] . ' px">:</td>
-                <td class="no-border"   width="' . $arr[2] . ' px"> ' . $value . '</td>
-                </tr>';
+        $html = "";
+        if ($tr) $html .= '<tr class="no-borders">';
+        $html .= '
+                <td class="no-border"  width="80px">' . $label . '</td>
+                <td class="no-border text-center"  width="10px">:</td>
+                <td class="no-border"   width="150px" ' . (($tr) ? 'colspan="4"' : '') . '> ' . $value . '</td>
+                ';
+        if ($tr) $html .= '</tr>';
+        return $html;
     }
 }
 
@@ -142,39 +146,50 @@ if (!function_exists('pdf_checkbox')) {
         $checked = ('1' == $value) ? 'checked' : '';
         return '  
                 <div style="display: inline-block; vertical-align: middle;">
-                <input style="transform: scale(1.5); vertical-align: middle;" type="checkbox" ' . $checked . '>
+                <input style="transform: scale(1); vertical-align: middle;" type="checkbox" ' . $checked . '>
                 <span style="display: inline-block; vertical-align: middle;"> ' . $label . '</span>
             </div>
 ';
     }
 }
 if (!function_exists('pdf_checkbox2')) {
-    function pdf_checkbox2($label, $value = null)
+    function pdf_checkbox2($label, $value = null, $format = 1)
     {
         // dd($value);
         $checked = ('1' == $value) ? 'checked' : '';
-
-        return '  <tr class="no-border">
-        <td class="no-border" style="vertical-align: top ;">' . ($value == 'noprint' ? '' :
-            '<input style="  transform: scale(1.5); margin-right: 3px " type="checkbox" ' . $checked . '>'
-        ) . ' </td> 
-        <td class="no-border" > ' . $label . '</td>
+        if ($format == 2 && empty($value)) {
+            return "";
+        }
+        return '  <tr class="no-border" style="height: 5px !important ;margin-top: 0px !important ; padding-top:0px !important ">
+        <td class="no-border" style="vertical-align: top ; margin-top: -100px !important ; padding-top: -10px !important ">
+        ' . ($value == 'noprint' ? '' :
+            //         '<div style="display: inline-block; vertical-align: buttom;">
+            //     <input style="transform: scale(1); margin: 0; padding: 0; height: 15px !important;" type="checkbox" ' . $checked . '>
+            // </div>'
+            '<input style="vertical-align: top ;  transform: scale(1.2); margin-top:  -5px !important ; padding-top: -10px  !important ;height: 15px !important" type="checkbox" ' . $checked . '>'
+        ) . ' 
+        </td> 
+        <td class="no-border" style="height: 15px !important;" > ' . $label . '</td>
         <tr>';
     }
 }
 if (!function_exists('pdf_radio')) {
-    function pdf_radio($label, $arr = [], $value = null)
+    function pdf_radio($label, $arr = [], $value = null, $format = 1)
     {
         $html = '';
         foreach ($arr as $key => $ar) {
             $checked = ($key == $value) ? 'checked' : '';
-            $html .= '<div style="display: inline-block; vertical-align: middle; margin-left: 2px;">
-            <input style="transform: scale(0.6); vertical-align: middle;" type="radio" ' . $checked . '>
-            <span style="display: inline-block; vertical-align: middle;"> ' . $ar . '</span>
-             </div>';
+            if ($format == 2) {
+                if ($checked) return " : <b>$ar<b>";
+            } else {
+                $html .= '<div style="display: inline-block; vertical-align: middle; margin-left: 2px;">
+                    <input style="transform: scale(0.6); vertical-align: middle;" type="radio" ' . $checked . '>
+                    <span style="display: inline-block; vertical-align: middle;"> ' . $ar . '</span>
+                    </div>';
+            }
         }
-
-        return $html;
+        if ($format == 2) return "";
+        return "<br>" . $html;
     }
 }
 

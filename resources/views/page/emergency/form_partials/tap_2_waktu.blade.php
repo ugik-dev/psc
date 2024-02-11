@@ -25,15 +25,16 @@
                 <div class="accordion-body">
                     <div class="row">
                         <div class="col-sm-12 mb-2">
-                            <label for="tanggal" class="form-label">Tanggal:
-                                {{ $dataContent->created_at }}</label>
+                            <label for="tanggal" class="form-label">Tanggal: </label>
                             <input type="date" class="form-control" id="tanggal" name="tanggal"
-                                value="{{ $dataContent->created_at->format('Y-m-d') }}" disabled>
+                                value="{{ !empty($id) ? $dataContent->created_at->format('Y-m-d') : $dataForm->tanggal ?? '' }}"
+                                {{ !empty($id) ? 'readonly' : '' }}>
                         </div>
                         <div class="col-sm-6 mb-2">
                             <label for="waktu_panggilan" class="form-label">Waktu Panggilan:</label>
                             <input type="time" class="form-control" id="waktu_panggilan"
-                                value="{{ $dataContent->created_at->format('H:i') }}" name="waktu_panggilan" disabled>
+                                value="{{ !empty($id) ? $dataContent->created_at->format('H:i') : $dataForm->waktu_panggilan ?? '' }}"
+                                name="waktu_panggilan" {{ !empty($id) ? 'readonly' : '' }}>
                         </div>
                         <div class="col-sm-6 mb-2">
                             <label for="waktu_berangkat" class="form-label">Waktu Berangkat:</label>

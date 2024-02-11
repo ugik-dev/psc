@@ -12,7 +12,17 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="col-md">
-                            {!! input_inline('gcs', '1. DISABILITY (GCS)', 'sm-3', 'sm-9', '', $dataForm->gcs ?? '') !!}
+                            <div class="row mt-2">
+                                <label class="col-sm-3 col-form-label" for="gcs">1. GCS </label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input id="gcs" name="gcs" class="form-control " readonly
+                                            value="{{ $dataForm->gcs ?? '' }}" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- {!! input_inline('gcs', '1. DISABILITY (GCS)', 'sm-3', 'sm-9', '', $dataForm->gcs ?? '') !!} --}}
                             <hr>
                             <div class="col-md">
                                 <div class="row mb-3">
@@ -93,6 +103,8 @@
                                     <div class="col-sm-9">
                                         {!! input_inline('gcs_t_posisi', 'Posisi', 'sm-3', 'sm-9', '', $dataForm->gcs_t_posisi ?? '') !!}
                                         {!! input_inline('gcs_t_gds', 'GDS', 'sm-3', 'sm-9', 'mg/dl', $dataForm->gcs_t_gds ?? '') !!}
+                                        {!! input_inline('gcs_t_chol', 'Chol', 'sm-3', 'sm-9', 'mg/dl', $dataForm->gcs_t_chol ?? '') !!}
+                                        {!! input_inline('gcs_t_au', 'AU', 'sm-3', 'sm-9', 'mg/dl', $dataForm->gcs_t_au ?? '') !!}
                                     </div>
                                 </div>
                             </div>

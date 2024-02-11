@@ -21,6 +21,12 @@ class RoleSeeder extends Seeder
         $admin = Role::updateOrCreate(['id' => 5, 'name' => 'pegawai', 'title' => 'Pegawai']);
 
         $respon_call = Permission::updateOrCreate(['name' => 'respon_call']);
-        $super_admin->givePermissionTo($respon_call);
+        $crud_users = Permission::updateOrCreate(['name' => 'crud_users']);
+        $crud_information = Permission::updateOrCreate(['name' => 'crud_information']);
+        $super_admin->givePermissionTo([$respon_call, $crud_users, $crud_information]);
+        // $super_admin->givePermissionTo($crud_users);
+        // $super_admin->givePermissionTo($crud_information);
+
+        // $super_admin->assignRole(1);
     }
 }

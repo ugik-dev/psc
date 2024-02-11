@@ -11,15 +11,23 @@ use Illuminate\Support\Facades\Response;
 
 class PdfController extends Controller
 {
-    public function form_kejadian($id, $id_form,)
+
+    public function kejadian($id, $format)
     {
-        $data = RequestCall::with(['login_session', 'ref_emergency'])
-            ->findOrFail($id);
+        return $this->form_kejadian(null, $id, $format);
+    }
+    public function form_kejadian($id, $id_form, $format)
+    {
+        if (!empty($id)) {
+            $data = RequestCall::with(['login_session', 'ref_emergency'])
+                ->findOrFail($id);
+        }
         $data_all = Form::find($id_form);
         // $jsonData = json_decode($data_all->form_data);
         $compact = [
-            'dataContent' => $data,
+            // 'dataContent' => $data,
             'dataForm' => $data_all,
+            'format' => $format
         ];
 
         // $data = [
@@ -34,6 +42,7 @@ class PdfController extends Controller
             'margin_bottom' => 2, // Set bottom margin in millimeters
             'margin_left' => 2,
         ]);
+        // return view('page.emergency.print', $compact,);
         $pdf = PDF::loadView('page.emergency.print', $compact, [
             'dpi' => 150,
             'defaultFont' => 'sans-serif',
@@ -42,12 +51,8 @@ class PdfController extends Controller
             'margin_bottom' => 2,
             'margin_left' => 2,
         ]);
-        $pdf->setPaper('A4', 'portrait');
-        // $pdf->setOptions([
-        //     // Set left margin in millimeters
-        // ]);
-        // return $pdf->download('document.pdf');
-        return $pdf->stream('document.pdf');
+        $pdf->setPaper([0, 0, 596, 935], 'portrait');
+        // return $pdf->stream('document.pdf');
         return Response::make($pdf->output(), 200, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename=document.pdf',

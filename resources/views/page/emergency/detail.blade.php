@@ -1,55 +1,6 @@
-{{-- @extends('layouts/layoutMaster')
-
-@section('title', 'eCommerce Order Details - Apps')
-
-@section('vendor-style')
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/@form-validation/umd/styles/index.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
-@endsection
-
-@section('vendor-script')
-    <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/cleavejs/cleave.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/cleavejs/cleave-phone.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/@form-validation/umd/bundle/popular.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
-@endsection
-
-@section('page-script')
-    <script src="{{ asset('assets/js/app-ecommerce-order-details.js') }}"></script>
-    <script src="{{ asset('assets/js/modal-add-new-address.js') }}"></script>
-    <script src="{{ asset('assets/js/modal-edit-user.js') }}"></script>
-@endsection
-
-@section('content')
-
-
-
-
-    <!-- Order Details Table -->
-
-
-
-    <!-- Modals -->
-    @include('_partials/_modals/modal-edit-user')
-    @include('_partials/_modals/modal-add-new-address')
-
-
-@endsection --}}
-
-
-
 @extends('layouts/layoutMaster')
 
-@section('title', 'Leaflet - Maps')
+@section('title', 'Detail Emergency Call')
 
 @section('vendor-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/leaflet/leaflet.css') }}" />
@@ -300,13 +251,13 @@
                         Form</a>
 
                 </h5>
-                <div class="table-responsive text-nowrap">
+                <div class="text-nowrap">
                     <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>Tanggal</th>
                                 <th>Agent</th>
-                                <th>Actions</th>
+                                <th width="10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
@@ -315,7 +266,33 @@
                                     <td>{{ $form->created_at->format('d-m-Y  (H:i)') }}</td>
                                     <td>{{ $form->user->name }}</td>
                                     <td>
-                                        <div class="dropdown">
+                                        <div class="btn-group me-2">
+                                            <button type="button"
+                                                class="btn btn-primary btn-icon  dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown">
+                                                <i class="mdi mdi-printer"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item waves-effect"
+                                                        href="{{ route('emergency-form-print', [$dataContent->id, $form->id, 1]) }}">Format
+                                                        1</a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item waves-effect"
+                                                        href="{{ route('emergency-form-print', [$dataContent->id, $form->id, 2]) }}">Format
+                                                        2</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <a type="button" class="btn btn-icon me-2 btn-primary"
+                                            href="{{ route('emergency-form-edit', [$dataContent->id, $form->id]) }}">
+                                            <span class="tf-icons mdi mdi-pencil-outline"></span>
+                                        </a>
+                                        <button type="button" class="btn btn-icon me-2 btn-danger">
+                                            <span class="tf-icons mdi mdi-trash-can-outline"></span>
+                                        </button>
+                                        {{-- <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
                                                 data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></button>
                                             <div class="dropdown-menu">
@@ -325,10 +302,9 @@
                                                 <a class="dropdown-item waves-effect"
                                                     href="{{ route('emergency-form-edit', [$dataContent->id, $form->id]) }}"><i
                                                         class="mdi mdi-pencil-outline me-1"></i> Edit</a>
-                                                <a class="dropdown-item waves-effect" href="javascript:void(0);"><i
-                                                        class="mdi mdi-trash-can-outline me-1"></i> Delete</a>
+
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </td>
                                 </tr>
                             @endforeach

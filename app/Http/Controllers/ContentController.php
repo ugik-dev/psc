@@ -49,8 +49,6 @@ class ContentController extends Controller
                 'slug' => $slug,
             ];
 
-
-
             $data = Content::create($att);
             $data = Content::with('ref_content')->find($data->id);
 
