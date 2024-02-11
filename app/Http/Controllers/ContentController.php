@@ -101,8 +101,15 @@ class ContentController extends Controller
             ];
             if ($request->judul != $data->judul)
                 $att['slug'] = Content::createUniqueSlug($request->judul, $request->id);
-            $data->update($att);
 
+            if ($request->hasFile('file_sampul')) {
+                $photo = $request->file('file_sampul');
+                $originalFilename = time() . $photo->getClientOriginalName(); // Ambil nama asli file
+                $path = $photo->storeAs('upload/content', $originalFilename, 'public');
+                // dd($path);
+                $att['sampul']  = $originalFilename;
+            }
+            $data->update($att);
             return  $this->responseSuccess($data);
         } catch (Exception $ex) {
             return  $this->ResponseError($ex->getMessage());

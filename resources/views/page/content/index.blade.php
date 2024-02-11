@@ -462,7 +462,7 @@
             });
             ContentForm.updateBtn.on('click', () => {
                 event.preventDefault();
-                submit_form('{{ route('content.update') }}', 'PUT');
+                submit_form('{{ route('content.update') }}', 'POST');
             });
 
             function submit_form(url, metode) {

@@ -112,7 +112,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('', [ContentController::class, 'index'])->name('index');
         Route::get('get', [ContentController::class, 'get'])->name('get');
         Route::post('', [ContentController::class, 'create'])->name('create');
-        Route::put('', [ContentController::class, 'update'])->name('update');
+        Route::post('/update', [ContentController::class, 'update'])->name('update');
         Route::delete('/', [ContentController::class, 'delete'])->name('delete');
         Route::get('/getData/{id_wil}', [ContentController::class, 'getData'])->name('get-data');
         Route::get('/show/{slug}', [ContentController::class, 'show'])->name('show');
